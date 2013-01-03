@@ -10,6 +10,10 @@
 
 @interface MLPadSplitViewController : UIViewController
 
-@property (nonatomic, retain) UIView *leftViewController, *rightViewController;
+@property (nonatomic, retain) UIViewController *leftViewController;
+@property (nonatomic, retain) UIViewController *rightViewController;
+
+- (void)presentPopupViewController:(UIViewController *)viewController animated:(BOOL)animated;
+- (void)presentPinViewController:(UIViewController *)pinController animated:(BOOL)animated;
 
 @end
