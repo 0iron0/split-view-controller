@@ -1,0 +1,479 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		345CE2BF1694DD89009BA0C9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 345CE2BE1694DD89009BA0C9 /* UIKit.framework */; };
+		345CE2C11694DD89009BA0C9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 345CE2C01694DD89009BA0C9 /* Foundation.framework */; };
+		345CE2C31694DD89009BA0C9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 345CE2C21694DD89009BA0C9 /* CoreGraphics.framework */; };
+		345CE2C91694DD89009BA0C9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 345CE2C71694DD89009BA0C9 /* InfoPlist.strings */; };
+		345CE2CB1694DD89009BA0C9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 345CE2CA1694DD89009BA0C9 /* main.m */; };
+		345CE2CF1694DD89009BA0C9 /* MLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 345CE2CE1694DD89009BA0C9 /* MLAppDelegate.m */; };
+		345CE2D11694DD89009BA0C9 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 345CE2D01694DD89009BA0C9 /* Default.png */; };
+		345CE2D31694DD89009BA0C9 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 345CE2D21694DD89009BA0C9 /* Default@2x.png */; };
+		345CE2D51694DD89009BA0C9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 345CE2D41694DD89009BA0C9 /* Default-568h@2x.png */; };
+		345CE2DD1694DD89009BA0C9 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 345CE2DC1694DD89009BA0C9 /* SenTestingKit.framework */; };
+		345CE2DE1694DD89009BA0C9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 345CE2BE1694DD89009BA0C9 /* UIKit.framework */; };
+		345CE2DF1694DD89009BA0C9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 345CE2C01694DD89009BA0C9 /* Foundation.framework */; };
+		345CE2E71694DD89009BA0C9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 345CE2E51694DD89009BA0C9 /* InfoPlist.strings */; };
+		345CE2EA1694DD89009BA0C9 /* PadSplitViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 345CE2E91694DD89009BA0C9 /* PadSplitViewControllerTests.m */; };
+		34647FCC16951D8A00183D40 /* MLPadMenuNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34647FC716951D8A00183D40 /* MLPadMenuNavigationController.m */; };
+		34647FCD16951D8A00183D40 /* MLPadMenuNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34647FC716951D8A00183D40 /* MLPadMenuNavigationController.m */; };
+		34647FCE16951D8A00183D40 /* MLPadMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34647FC916951D8A00183D40 /* MLPadMenuViewController.m */; };
+		34647FCF16951D8A00183D40 /* MLPadMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34647FC916951D8A00183D40 /* MLPadMenuViewController.m */; };
+		34647FD016951D8A00183D40 /* MLPadSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34647FCB16951D8A00183D40 /* MLPadSplitViewController.m */; };
+		34647FD116951D8A00183D40 /* MLPadSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34647FCB16951D8A00183D40 /* MLPadSplitViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		345CE2E01694DD89009BA0C9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 345CE2B11694DD89009BA0C9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 345CE2B91694DD89009BA0C9;
+			remoteInfo = PadSplitViewController;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		345CE2BA1694DD89009BA0C9 /* PadSplitViewController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PadSplitViewController.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		345CE2BE1694DD89009BA0C9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		345CE2C01694DD89009BA0C9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		345CE2C21694DD89009BA0C9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		345CE2C61694DD89009BA0C9 /* PadSplitViewController-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PadSplitViewController-Info.plist"; sourceTree = "<group>"; };
+		345CE2C81694DD89009BA0C9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		345CE2CA1694DD89009BA0C9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		345CE2CC1694DD89009BA0C9 /* PadSplitViewController-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PadSplitViewController-Prefix.pch"; sourceTree = "<group>"; };
+		345CE2CD1694DD89009BA0C9 /* MLAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLAppDelegate.h; sourceTree = "<group>"; };
+		345CE2CE1694DD89009BA0C9 /* MLAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MLAppDelegate.m; sourceTree = "<group>"; };
+		345CE2D01694DD89009BA0C9 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		345CE2D21694DD89009BA0C9 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		345CE2D41694DD89009BA0C9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		345CE2DB1694DD89009BA0C9 /* PadSplitViewControllerTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PadSplitViewControllerTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		345CE2DC1694DD89009BA0C9 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		345CE2E41694DD89009BA0C9 /* PadSplitViewControllerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PadSplitViewControllerTests-Info.plist"; sourceTree = "<group>"; };
+		345CE2E61694DD89009BA0C9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		345CE2E81694DD89009BA0C9 /* PadSplitViewControllerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PadSplitViewControllerTests.h; sourceTree = "<group>"; };
+		345CE2E91694DD89009BA0C9 /* PadSplitViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PadSplitViewControllerTests.m; sourceTree = "<group>"; };
+		34647FC616951D8A00183D40 /* MLPadMenuNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPadMenuNavigationController.h; sourceTree = "<group>"; };
+		34647FC716951D8A00183D40 /* MLPadMenuNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPadMenuNavigationController.m; sourceTree = "<group>"; };
+		34647FC816951D8A00183D40 /* MLPadMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPadMenuViewController.h; sourceTree = "<group>"; };
+		34647FC916951D8A00183D40 /* MLPadMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPadMenuViewController.m; sourceTree = "<group>"; };
+		34647FCA16951D8A00183D40 /* MLPadSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPadSplitViewController.h; sourceTree = "<group>"; };
+		34647FCB16951D8A00183D40 /* MLPadSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPadSplitViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		345CE2B71694DD89009BA0C9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				345CE2BF1694DD89009BA0C9 /* UIKit.framework in Frameworks */,
+				345CE2C11694DD89009BA0C9 /* Foundation.framework in Frameworks */,
+				345CE2C31694DD89009BA0C9 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		345CE2D71694DD89009BA0C9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				345CE2DD1694DD89009BA0C9 /* SenTestingKit.framework in Frameworks */,
+				345CE2DE1694DD89009BA0C9 /* UIKit.framework in Frameworks */,
+				345CE2DF1694DD89009BA0C9 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		345CE2AF1694DD89009BA0C9 = {
+			isa = PBXGroup;
+			children = (
+				345CE2C41694DD89009BA0C9 /* PadSplitViewController */,
+				345CE2E21694DD89009BA0C9 /* PadSplitViewControllerTests */,
+				345CE2BD1694DD89009BA0C9 /* Frameworks */,
+				345CE2BB1694DD89009BA0C9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		345CE2BB1694DD89009BA0C9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				345CE2BA1694DD89009BA0C9 /* PadSplitViewController.app */,
+				345CE2DB1694DD89009BA0C9 /* PadSplitViewControllerTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		345CE2BD1694DD89009BA0C9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				345CE2BE1694DD89009BA0C9 /* UIKit.framework */,
+				345CE2C01694DD89009BA0C9 /* Foundation.framework */,
+				345CE2C21694DD89009BA0C9 /* CoreGraphics.framework */,
+				345CE2DC1694DD89009BA0C9 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		345CE2C41694DD89009BA0C9 /* PadSplitViewController */ = {
+			isa = PBXGroup;
+			children = (
+				345CE2CD1694DD89009BA0C9 /* MLAppDelegate.h */,
+				345CE2CE1694DD89009BA0C9 /* MLAppDelegate.m */,
+				34647FC516951D8A00183D40 /* Controllers */,
+				345CE2C51694DD89009BA0C9 /* Supporting Files */,
+			);
+			path = PadSplitViewController;
+			sourceTree = "<group>";
+		};
+		345CE2C51694DD89009BA0C9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				345CE2C61694DD89009BA0C9 /* PadSplitViewController-Info.plist */,
+				345CE2C71694DD89009BA0C9 /* InfoPlist.strings */,
+				345CE2CA1694DD89009BA0C9 /* main.m */,
+				345CE2CC1694DD89009BA0C9 /* PadSplitViewController-Prefix.pch */,
+				345CE2D01694DD89009BA0C9 /* Default.png */,
+				345CE2D21694DD89009BA0C9 /* Default@2x.png */,
+				345CE2D41694DD89009BA0C9 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		345CE2E21694DD89009BA0C9 /* PadSplitViewControllerTests */ = {
+			isa = PBXGroup;
+			children = (
+				345CE2E81694DD89009BA0C9 /* PadSplitViewControllerTests.h */,
+				345CE2E91694DD89009BA0C9 /* PadSplitViewControllerTests.m */,
+				345CE2E31694DD89009BA0C9 /* Supporting Files */,
+			);
+			path = PadSplitViewControllerTests;
+			sourceTree = "<group>";
+		};
+		345CE2E31694DD89009BA0C9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				345CE2E41694DD89009BA0C9 /* PadSplitViewControllerTests-Info.plist */,
+				345CE2E51694DD89009BA0C9 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		34647FC516951D8A00183D40 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				34647FCA16951D8A00183D40 /* MLPadSplitViewController.h */,
+				34647FCB16951D8A00183D40 /* MLPadSplitViewController.m */,
+				34647FC616951D8A00183D40 /* MLPadMenuNavigationController.h */,
+				34647FC716951D8A00183D40 /* MLPadMenuNavigationController.m */,
+				34647FC816951D8A00183D40 /* MLPadMenuViewController.h */,
+				34647FC916951D8A00183D40 /* MLPadMenuViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		345CE2B91694DD89009BA0C9 /* PadSplitViewController */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 345CE2ED1694DD89009BA0C9 /* Build configuration list for PBXNativeTarget "PadSplitViewController" */;
+			buildPhases = (
+				345CE2B61694DD89009BA0C9 /* Sources */,
+				345CE2B71694DD89009BA0C9 /* Frameworks */,
+				345CE2B81694DD89009BA0C9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PadSplitViewController;
+			productName = PadSplitViewController;
+			productReference = 345CE2BA1694DD89009BA0C9 /* PadSplitViewController.app */;
+			productType = "com.apple.product-type.application";
+		};
+		345CE2DA1694DD89009BA0C9 /* PadSplitViewControllerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 345CE2F01694DD89009BA0C9 /* Build configuration list for PBXNativeTarget "PadSplitViewControllerTests" */;
+			buildPhases = (
+				345CE2D61694DD89009BA0C9 /* Sources */,
+				345CE2D71694DD89009BA0C9 /* Frameworks */,
+				345CE2D81694DD89009BA0C9 /* Resources */,
+				345CE2D91694DD89009BA0C9 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				345CE2E11694DD89009BA0C9 /* PBXTargetDependency */,
+			);
+			name = PadSplitViewControllerTests;
+			productName = PadSplitViewControllerTests;
+			productReference = 345CE2DB1694DD89009BA0C9 /* PadSplitViewControllerTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		345CE2B11694DD89009BA0C9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = ML;
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Justin Brunet";
+			};
+			buildConfigurationList = 345CE2B41694DD89009BA0C9 /* Build configuration list for PBXProject "PadSplitViewController" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 345CE2AF1694DD89009BA0C9;
+			productRefGroup = 345CE2BB1694DD89009BA0C9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				345CE2B91694DD89009BA0C9 /* PadSplitViewController */,
+				345CE2DA1694DD89009BA0C9 /* PadSplitViewControllerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		345CE2B81694DD89009BA0C9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				345CE2C91694DD89009BA0C9 /* InfoPlist.strings in Resources */,
+				345CE2D11694DD89009BA0C9 /* Default.png in Resources */,
+				345CE2D31694DD89009BA0C9 /* Default@2x.png in Resources */,
+				345CE2D51694DD89009BA0C9 /* Default-568h@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		345CE2D81694DD89009BA0C9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				345CE2E71694DD89009BA0C9 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		345CE2D91694DD89009BA0C9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		345CE2B61694DD89009BA0C9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				345CE2CB1694DD89009BA0C9 /* main.m in Sources */,
+				345CE2CF1694DD89009BA0C9 /* MLAppDelegate.m in Sources */,
+				34647FCC16951D8A00183D40 /* MLPadMenuNavigationController.m in Sources */,
+				34647FCE16951D8A00183D40 /* MLPadMenuViewController.m in Sources */,
+				34647FD016951D8A00183D40 /* MLPadSplitViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		345CE2D61694DD89009BA0C9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				345CE2EA1694DD89009BA0C9 /* PadSplitViewControllerTests.m in Sources */,
+				34647FCD16951D8A00183D40 /* MLPadMenuNavigationController.m in Sources */,
+				34647FCF16951D8A00183D40 /* MLPadMenuViewController.m in Sources */,
+				34647FD116951D8A00183D40 /* MLPadSplitViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		345CE2E11694DD89009BA0C9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 345CE2B91694DD89009BA0C9 /* PadSplitViewController */;
+			targetProxy = 345CE2E01694DD89009BA0C9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		345CE2C71694DD89009BA0C9 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				345CE2C81694DD89009BA0C9 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		345CE2E51694DD89009BA0C9 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				345CE2E61694DD89009BA0C9 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		345CE2EB1694DD89009BA0C9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		345CE2EC1694DD89009BA0C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		345CE2EE1694DD89009BA0C9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PadSplitViewController/PadSplitViewController-Prefix.pch";
+				INFOPLIST_FILE = "PadSplitViewController/PadSplitViewController-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		345CE2EF1694DD89009BA0C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PadSplitViewController/PadSplitViewController-Prefix.pch";
+				INFOPLIST_FILE = "PadSplitViewController/PadSplitViewController-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		345CE2F11694DD89009BA0C9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PadSplitViewController.app/PadSplitViewController";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PadSplitViewController/PadSplitViewController-Prefix.pch";
+				INFOPLIST_FILE = "PadSplitViewControllerTests/PadSplitViewControllerTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		345CE2F21694DD89009BA0C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PadSplitViewController.app/PadSplitViewController";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PadSplitViewController/PadSplitViewController-Prefix.pch";
+				INFOPLIST_FILE = "PadSplitViewControllerTests/PadSplitViewControllerTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		345CE2B41694DD89009BA0C9 /* Build configuration list for PBXProject "PadSplitViewController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				345CE2EB1694DD89009BA0C9 /* Debug */,
+				345CE2EC1694DD89009BA0C9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		345CE2ED1694DD89009BA0C9 /* Build configuration list for PBXNativeTarget "PadSplitViewController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				345CE2EE1694DD89009BA0C9 /* Debug */,
+				345CE2EF1694DD89009BA0C9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		345CE2F01694DD89009BA0C9 /* Build configuration list for PBXNativeTarget "PadSplitViewControllerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				345CE2F11694DD89009BA0C9 /* Debug */,
+				345CE2F21694DD89009BA0C9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 345CE2B11694DD89009BA0C9 /* Project object */;
+}

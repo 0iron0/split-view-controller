@@ -1,0 +1,3 @@
+[submodule "PadSplitViewController"]
+	path = PadSplitViewController
+	url = https://github.com/justinbrunet/split-view-controller.git
