@@ -8,6 +8,7 @@
 
 #import "MLPadSplitViewController.h"
 #import "MLPadMenuNavigationController.h"
+#import "MLPadMenuViewController.h"
 
 @interface MLPadSplitViewController ()
 
@@ -40,13 +41,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    	
+    
     [self configureLeftViewController];
     [self configureRightViewController];
 }
 
 - (void)viewDidLayoutSubviews
 {
+    _leftViewController.visibleFrame = [self leftControllerQuarterViewRect];
     _leftViewController.view.frame = [self leftControllerQuarterViewRect];
     _rightViewController.view.frame = [self rightControllerFrame];
 }
@@ -63,9 +65,13 @@
 
 - (void)configureLeftViewController
 {
-    _leftViewController = [[MLPadMenuNavigationController alloc] initWithNibName:nil bundle:nil];
+    MLPadMenuViewController *rootController = [[MLPadMenuViewController alloc] initWithNibName:nil bundle:nil];
+    
+    _leftViewController = [[MLPadMenuNavigationController alloc] initWithRootViewController:rootController];
     _leftViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [self.view addSubview:_leftViewController.view];
+    
+    [rootController release];
 }
 
 - (void)configureRightViewController
@@ -74,6 +80,7 @@
     _rightViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     _rightViewController.view.backgroundColor = [UIColor colorWithRed:228.0/255 green:228.0/255 blue:228.0/255 alpha:1.0];
     [self.view addSubview:_rightViewController.view];
+    [self addChildViewController:_rightViewController];
 }
 
 #pragma mark - Controller Presentation Methods
@@ -112,10 +119,10 @@
 }
 
 - (CGRect)rightControllerFrame {
-    return CGRectMake(CGRectGetMaxX(_leftViewController.view.frame),
-                      _leftViewController.view.frame.origin.y,
+    return CGRectMake(CGRectGetMaxX(_leftViewController.visibleFrame),
+                      _leftViewController.visibleFrame.origin.y,
                       floorf(self.view.bounds.size.width / 4) * 3,
-                      _leftViewController.view.frame.size.height);
+                      _leftViewController.visibleFrame.size.height);
 }
 
 @end

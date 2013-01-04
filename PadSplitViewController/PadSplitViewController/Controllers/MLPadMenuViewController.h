@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MLPadMenuNavigationController.h"
+#import "MLPadMenuNavigationBar.h"
 
-@interface MLPadMenuViewController : UIViewController
+@interface MLPadMenuViewController : UIViewController <MenuViewController>
+
+@property (nonatomic, assign) UIViewController *menuNavigationController;
+@property (nonatomic, retain) MLPadMenuNavigationBar *navigationBar;
 
 @end

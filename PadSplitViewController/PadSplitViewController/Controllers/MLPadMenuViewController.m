@@ -7,12 +7,24 @@
 //
 
 #import "MLPadMenuViewController.h"
+#import "MLMenuPinView.h"
+#import "MLPadMenuTableView.h"
 
-@interface MLPadMenuViewController ()
+@interface MLPadMenuViewController () {
+    MLMenuPinView *_pinView;
+    MLPadMenuTableView *_tableView;
+}
+
+- (void)configurePinView;
+- (void)configureNavigationBar;
+- (void)configureTableView;
 
 @end
 
 @implementation MLPadMenuViewController
+
+@synthesize menuNavigationController = _menuNavigationController;
+@synthesize navigationBar = _navigationBar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,13 +39,32 @@
 {
     [super viewDidLoad];
 
-    
+    self.view.backgroundColor = [UIColor redColor];
+    [self configurePinView];
+    [self configureNavigationBar];
+    [self configureTableView];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - View Configuration
+
+- (void)configurePinView
+{
+    
+}
+
+- (void)configureNavigationBar
+{
+    
+}
+
+- (void)configureTableView
+{
+    
 }
 
 @end

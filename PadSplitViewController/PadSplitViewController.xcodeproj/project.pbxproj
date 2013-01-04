@@ -27,6 +27,12 @@
 		34647FCF16951D8A00183D40 /* MLPadMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34647FC916951D8A00183D40 /* MLPadMenuViewController.m */; };
 		34647FD016951D8A00183D40 /* MLPadSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34647FCB16951D8A00183D40 /* MLPadSplitViewController.m */; };
 		34647FD116951D8A00183D40 /* MLPadSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34647FCB16951D8A00183D40 /* MLPadSplitViewController.m */; };
+		34647FF516976AFC00183D40 /* MLMenuPinView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34647FF416976AFC00183D40 /* MLMenuPinView.m */; };
+		34647FF616976AFC00183D40 /* MLMenuPinView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34647FF416976AFC00183D40 /* MLMenuPinView.m */; };
+		34647FF916976B3C00183D40 /* MLPadMenuNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 34647FF816976B3C00183D40 /* MLPadMenuNavigationBar.m */; };
+		34647FFA16976B3C00183D40 /* MLPadMenuNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 34647FF816976B3C00183D40 /* MLPadMenuNavigationBar.m */; };
+		34647FFD16976CA900183D40 /* MLPadMenuTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34647FFC16976CA900183D40 /* MLPadMenuTableView.m */; };
+		34647FFE16976CA900183D40 /* MLPadMenuTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34647FFC16976CA900183D40 /* MLPadMenuTableView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +71,12 @@
 		34647FC916951D8A00183D40 /* MLPadMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPadMenuViewController.m; sourceTree = "<group>"; };
 		34647FCA16951D8A00183D40 /* MLPadSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPadSplitViewController.h; sourceTree = "<group>"; };
 		34647FCB16951D8A00183D40 /* MLPadSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPadSplitViewController.m; sourceTree = "<group>"; };
+		34647FF316976AFC00183D40 /* MLMenuPinView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLMenuPinView.h; sourceTree = "<group>"; };
+		34647FF416976AFC00183D40 /* MLMenuPinView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLMenuPinView.m; sourceTree = "<group>"; };
+		34647FF716976B3C00183D40 /* MLPadMenuNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPadMenuNavigationBar.h; sourceTree = "<group>"; };
+		34647FF816976B3C00183D40 /* MLPadMenuNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPadMenuNavigationBar.m; sourceTree = "<group>"; };
+		34647FFB16976CA900183D40 /* MLPadMenuTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPadMenuTableView.h; sourceTree = "<group>"; };
+		34647FFC16976CA900183D40 /* MLPadMenuTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPadMenuTableView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +139,7 @@
 				345CE2CD1694DD89009BA0C9 /* MLAppDelegate.h */,
 				345CE2CE1694DD89009BA0C9 /* MLAppDelegate.m */,
 				34647FC516951D8A00183D40 /* Controllers */,
+				34647FF21697693200183D40 /* Views */,
 				345CE2C51694DD89009BA0C9 /* Supporting Files */,
 			);
 			path = PadSplitViewController;
@@ -176,6 +189,19 @@
 				34647FC916951D8A00183D40 /* MLPadMenuViewController.m */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		34647FF21697693200183D40 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				34647FF316976AFC00183D40 /* MLMenuPinView.h */,
+				34647FF416976AFC00183D40 /* MLMenuPinView.m */,
+				34647FF716976B3C00183D40 /* MLPadMenuNavigationBar.h */,
+				34647FF816976B3C00183D40 /* MLPadMenuNavigationBar.m */,
+				34647FFB16976CA900183D40 /* MLPadMenuTableView.h */,
+				34647FFC16976CA900183D40 /* MLPadMenuTableView.m */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -293,6 +319,9 @@
 				34647FCC16951D8A00183D40 /* MLPadMenuNavigationController.m in Sources */,
 				34647FCE16951D8A00183D40 /* MLPadMenuViewController.m in Sources */,
 				34647FD016951D8A00183D40 /* MLPadSplitViewController.m in Sources */,
+				34647FF516976AFC00183D40 /* MLMenuPinView.m in Sources */,
+				34647FF916976B3C00183D40 /* MLPadMenuNavigationBar.m in Sources */,
+				34647FFD16976CA900183D40 /* MLPadMenuTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +333,9 @@
 				34647FCD16951D8A00183D40 /* MLPadMenuNavigationController.m in Sources */,
 				34647FCF16951D8A00183D40 /* MLPadMenuViewController.m in Sources */,
 				34647FD116951D8A00183D40 /* MLPadSplitViewController.m in Sources */,
+				34647FF616976AFC00183D40 /* MLMenuPinView.m in Sources */,
+				34647FFA16976B3C00183D40 /* MLPadMenuNavigationBar.m in Sources */,
+				34647FFE16976CA900183D40 /* MLPadMenuTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
