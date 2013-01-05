@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MLPadMenuTableView : UIView
+@interface MLPadMenuTableView : UITableView
 
 @end

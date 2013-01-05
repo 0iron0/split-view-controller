@@ -1,5 +1,5 @@
 //
-//  MLPadMenuNavigationBar.h
+//  MLMenuFooterView.h
 //  PadSplitViewController
 //
 //  Created by Justin Brunet on 1/4/13.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MLPadMenuNavigationBar : UIView
-
-@property (nonatomic, retain) NSString *title;
+@interface MLMenuFooterView : UIView
 
 @end

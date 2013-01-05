@@ -33,6 +33,8 @@
 		34647FFA16976B3C00183D40 /* MLPadMenuNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 34647FF816976B3C00183D40 /* MLPadMenuNavigationBar.m */; };
 		34647FFD16976CA900183D40 /* MLPadMenuTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34647FFC16976CA900183D40 /* MLPadMenuTableView.m */; };
 		34647FFE16976CA900183D40 /* MLPadMenuTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34647FFC16976CA900183D40 /* MLPadMenuTableView.m */; };
+		3464802116978A0E00183D40 /* MLMenuFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3464802016978A0E00183D40 /* MLMenuFooterView.m */; };
+		3464802216978A0E00183D40 /* MLMenuFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3464802016978A0E00183D40 /* MLMenuFooterView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +79,8 @@
 		34647FF816976B3C00183D40 /* MLPadMenuNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPadMenuNavigationBar.m; sourceTree = "<group>"; };
 		34647FFB16976CA900183D40 /* MLPadMenuTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPadMenuTableView.h; sourceTree = "<group>"; };
 		34647FFC16976CA900183D40 /* MLPadMenuTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPadMenuTableView.m; sourceTree = "<group>"; };
+		3464801F16978A0E00183D40 /* MLMenuFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLMenuFooterView.h; sourceTree = "<group>"; };
+		3464802016978A0E00183D40 /* MLMenuFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLMenuFooterView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +204,8 @@
 				34647FF816976B3C00183D40 /* MLPadMenuNavigationBar.m */,
 				34647FFB16976CA900183D40 /* MLPadMenuTableView.h */,
 				34647FFC16976CA900183D40 /* MLPadMenuTableView.m */,
+				3464801F16978A0E00183D40 /* MLMenuFooterView.h */,
+				3464802016978A0E00183D40 /* MLMenuFooterView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -322,6 +328,7 @@
 				34647FF516976AFC00183D40 /* MLMenuPinView.m in Sources */,
 				34647FF916976B3C00183D40 /* MLPadMenuNavigationBar.m in Sources */,
 				34647FFD16976CA900183D40 /* MLPadMenuTableView.m in Sources */,
+				3464802116978A0E00183D40 /* MLMenuFooterView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +343,7 @@
 				34647FF616976AFC00183D40 /* MLMenuPinView.m in Sources */,
 				34647FFA16976B3C00183D40 /* MLPadMenuNavigationBar.m in Sources */,
 				34647FFE16976CA900183D40 /* MLPadMenuTableView.m in Sources */,
+				3464802216978A0E00183D40 /* MLMenuFooterView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

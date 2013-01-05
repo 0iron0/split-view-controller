@@ -37,9 +37,9 @@
 
 - (void)dealloc
 {
-    [super dealloc];
-    
     [_viewControllers release];
+    
+    [super dealloc];
 }
 
 - (void)viewDidLoad
