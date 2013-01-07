@@ -14,5 +14,6 @@
 
 @property (nonatomic, assign) UIViewController *menuNavigationController;
 @property (nonatomic, retain) MLPadMenuNavigationBar *navigationBar;
+@property (nonatomic, retain) NSArray *courses;
 
 @end

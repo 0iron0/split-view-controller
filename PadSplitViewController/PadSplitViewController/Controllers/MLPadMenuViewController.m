@@ -10,8 +10,11 @@
 #import "MLMenuPinView.h"
 #import "MLPadMenuTableView.h"
 #import "MLMenuFooterView.h"
+#import "MLCourse.h"
+#import "MLMenuCell.h"
 
 #define MENU_NAVIGATION_BAR_HEIGHT 44
+#define MENU_CONTROLLER_CELL_HEIGHT 68
 
 @interface MLPadMenuViewController () {
     MLMenuPinView *_pinView;
@@ -34,12 +37,33 @@
 
 @synthesize menuNavigationController = _menuNavigationController;
 @synthesize navigationBar = _navigationBar;
+@synthesize courses = _courses;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
     {
-        // Custom initialization
+        MLCourse *course1 = [[[MLCourse alloc] init] autorelease];
+        course1.title = @"English 402";
+        course1.color = [UIColor colorWithRed:213.0/255 green:20.0/255 blue:37.0/255 alpha:1.0];
+        course1.unreadItems = 8;
+        
+        MLCourse *course2 = [[[MLCourse alloc] init] autorelease];
+        course2.title = @"Effective Literacy";
+        course2.color = [UIColor colorWithRed:63.0/255 green:117.0/255 blue:205.0/255 alpha:1.0];
+        course2.unreadItems = 4;
+        
+        MLCourse *course3 = [[[MLCourse alloc] init] autorelease];
+        course3.title = @"Theories-Meth";
+        course3.color = [UIColor colorWithRed:42.0/255 green:203.0/255 blue:133.0/255 alpha:1.0];
+        course3.unreadItems = 0;
+        
+        MLCourse *course4 = [[[MLCourse alloc] init] autorelease];
+        course4.title = @"Greek Philosophy";
+        course4.color = [UIColor colorWithRed:189.0/255 green:65.0/255 blue:200.0/255 alpha:1.0];
+        course4.unreadItems = 6;
+        
+        self.courses = [NSArray arrayWithObjects:course1, course2, course3, course4, nil];
     }
     return self;
 }
@@ -135,20 +159,40 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    
     if (section == 0)
         return 1;
     return 4;
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    if (indexPath.section == 0) {
+        //do some other shit
+    }
+    
+    MLCourse *course = [self.courses objectAtIndex:indexPath.row];
+    MLMenuCell *cell = [[MLMenuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"reuse"];
+    cell.title = course.title;
+    cell.color = course.color;
+    cell.unreadItems = course.unreadItems;
+    
     return [cell autorelease];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50;
+    return MENU_CONTROLLER_CELL_HEIGHT;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end
