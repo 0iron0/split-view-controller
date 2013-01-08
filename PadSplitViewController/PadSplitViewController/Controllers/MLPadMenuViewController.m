@@ -11,7 +11,8 @@
 #import "MLPadMenuTableView.h"
 #import "MLMenuFooterView.h"
 #import "MLCourse.h"
-#import "MLMenuCell.h"
+#import "MLMenuCourseCell.h"
+#import "MLMenuSectionHeaderView.h"
 
 #define MENU_NAVIGATION_BAR_HEIGHT 44
 #define MENU_CONTROLLER_CELL_HEIGHT 68
@@ -172,12 +173,15 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    MLMenuCourseCell *cell = [[MLMenuCourseCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[NSString stringWithFormat:@"%i%i", indexPath.section, indexPath.row]];
+    
     if (indexPath.section == 0) {
-        //do some other shit
+        cell.title = @"Activity Feed";
+        return [cell autorelease];
     }
     
     MLCourse *course = [self.courses objectAtIndex:indexPath.row];
-    MLMenuCell *cell = [[MLMenuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"reuse"];
+    
     cell.title = course.title;
     cell.color = course.color;
     cell.unreadItems = course.unreadItems;
@@ -193,6 +197,20 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+        return nil;
+    return [[[MLMenuSectionHeaderView alloc] init] autorelease];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+        return 0;
+    return 50;
 }
 
 @end

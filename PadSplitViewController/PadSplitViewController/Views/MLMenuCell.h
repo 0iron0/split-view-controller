@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface MLMenuCell : UITableViewCell
 
 @property (nonatomic, assign) NSString *title;
 @property (nonatomic, retain) UIColor *color;
 @property (nonatomic, assign) int unreadItems;
+@property (nonatomic, assign) BOOL shouldGrayTitle;
 
 @end
