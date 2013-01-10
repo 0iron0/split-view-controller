@@ -40,7 +40,6 @@
 - (CGRect)colorBarFrame;
 - (CGRect)unreadItemsViewFrame;
 - (CGRect)unreadItemsLabelFrame;
-- (CGRect)textLabelFrame;
 - (CGRect)arrowFrame;
 
 @end
@@ -50,7 +49,6 @@
 @synthesize title = _title;
 @synthesize color = _color;
 @synthesize unreadItems = _unreadItems;
-@synthesize shouldGrayTitle = _shouldGrayTitle;
 
 #pragma mark - Lifecycle
 
@@ -174,7 +172,7 @@
 
 - (void)setColor:(UIColor *)color {
     [_color release];
-    _color = color;
+    _color = [color retain];
     
     _colorBar.backgroundColor = _color;
     _unreadItemsView.backgroundColor = _color;
@@ -192,12 +190,6 @@
         [self showView:_colorBar animated:YES];
         _unreadItemsLabel.text = [NSString stringWithFormat:@"%i", _unreadItems];
     }
-}
-
-- (void)setShouldGrayTitle:(BOOL)shouldGrayTitle {
-    _shouldGrayTitle = shouldGrayTitle;
-    
-//    self.
 }
 
 #pragma mark - Frames
@@ -223,9 +215,9 @@
                       _unreadItemsView.bounds.size.height-1);
 }
 - (CGRect)textLabelFrame {
-    return CGRectMake(CGRectGetMaxX(_colorBar.frame) + MENU_CELL_TEXT_LEFT_BUFFER,
+    return CGRectMake(CGRectGetMaxX(_colorBar.frame) + [self textLeftBuffer],
                       self.textLabel.frame.origin.y,
-                      _unreadItemsView.frame.origin.x - MENU_CELL_TEXT_RIGHT_BUFFER - (CGRectGetMaxX(_colorBar.frame) + MENU_CELL_TEXT_LEFT_BUFFER),
+                      _unreadItemsView.frame.origin.x - MENU_CELL_TEXT_RIGHT_BUFFER - (CGRectGetMaxX(_colorBar.frame) + [self textLeftBuffer]),
                       self.textLabel.frame.size.height);
 }
 
@@ -235,6 +227,12 @@
                       CGRectGetMidY(self.bounds) - arrowSize.height/2,
                       arrowSize.width,
                       arrowSize.height);
+}
+
+#pragma mark - View Defines
+
+- (float)textLeftBuffer {
+    return MENU_CELL_TEXT_LEFT_BUFFER;
 }
 
 @end

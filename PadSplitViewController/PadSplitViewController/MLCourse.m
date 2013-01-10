@@ -10,6 +10,6 @@
 
 @implementation MLCourse
 
-@synthesize title, color, unreadItems;
+@synthesize title, color, unreadItems, courseMap;
 
 @end

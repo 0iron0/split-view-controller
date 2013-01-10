@@ -12,8 +12,12 @@
 
 @interface MLPadMenuViewController : UIViewController <MenuViewController, UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, assign) UIViewController *menuNavigationController;
+@property (nonatomic, assign) MLPadMenuNavigationController *menuNavigationController;
 @property (nonatomic, retain) MLPadMenuNavigationBar *navigationBar;
-@property (nonatomic, retain) NSArray *courses;
+
+- (CGRect)navigationBarFrame;
+
+- (float)navigationBarHeight;
+- (float)cellHeight;
 
 @end

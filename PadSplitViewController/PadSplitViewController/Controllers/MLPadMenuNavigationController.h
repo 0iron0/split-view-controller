@@ -21,15 +21,22 @@
 @property (nonatomic, readonly) UIViewController <MenuViewController> *topViewController;
 @property (nonatomic, readonly) UIViewController <MenuViewController> *visibleViewController;
 @property (nonatomic, readonly) NSMutableArray *viewControllers;
-@property (nonatomic, assign) CGRect visibleFrame;
+@property (nonatomic, assign) CGRect minVisibleFrame;
+@property (nonatomic, assign) int visibleControllers;
+@property (nonatomic, assign) int maxVisibleControllers;
 
 - (id)initWithRootViewController:(UIViewController <MenuViewController> *)rootController;
 
 - (void)pushViewController:(UIViewController <MenuViewController> *)viewController animated:(BOOL)animated;
 - (void)popViewControllerAnimated:(BOOL)animated;
 - (void)popToRootViewControllerAnimated:(BOOL)animated;
+- (void)popToViewController:(UIViewController *)viewController animated:(BOOL)animated;
+- (void)presentContentViewController:(UIViewController *)viewController animated:(BOOL)animated;
 
 - (void)slideForwards;
 - (void)slideBackwards;
+
+- (CGRect)totalFrame;
+- (CGRect)currentlyVisibleFrame;
 
 @end

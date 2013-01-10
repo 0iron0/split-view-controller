@@ -12,7 +12,12 @@
 
 @required
 
-@property (nonatomic, assign) CGRect visibleFrame;
+
+@property (nonatomic, assign) int visibleControllers;
+@property (nonatomic, assign) int maxVisibleControllers;
+@property (nonatomic, assign) CGRect minVisibleFrame;
+@property (nonatomic, readonly) CGRect totalFrame;
+@property (nonatomic, readonly) CGRect currentlyVisibleFrame;
 
 @end
 
@@ -29,6 +34,7 @@
 @property (nonatomic, retain) UIViewController <LeftViewControllerProtocol> *leftViewController;
 @property (nonatomic, retain) UIViewController <RightViewControllerProtocol> *rightViewController;
 
+- (void)presentContentViewController:(UIViewController *)viewController animated:(BOOL)animated;
 - (void)presentPopupViewController:(UIViewController *)viewController animated:(BOOL)animated;
 - (void)presentPinViewController:(UIViewController *)pinController animated:(BOOL)animated;
 

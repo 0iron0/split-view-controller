@@ -14,6 +14,9 @@
 @property (nonatomic, assign) NSString *title;
 @property (nonatomic, retain) UIColor *color;
 @property (nonatomic, assign) int unreadItems;
-@property (nonatomic, assign) BOOL shouldGrayTitle;
+
+- (CGRect)textLabelFrame;
+
+- (float)textLeftBuffer;
 
 @end

@@ -1,81 +1,55 @@
 //
-//  MLPadMenuCourseViewController.m
+//  MLPadMenuContentItemViewController.m
 //  PadSplitViewController
 //
 //  Created by Justin Brunet on 1/8/13.
 //  Copyright (c) 2013 Justin Brunet. All rights reserved.
 //
 
-#import "MLPadMenuCourseViewController.h"
-#import "MLMenuCourseCell.h"
-#import "MLCourse.h"
 #import "MLPadMenuCourseMapItemViewController.h"
+#import "MLMenuCourseMapItemCell.h"
 #import "MLCourseMapItem.h"
-#import "MLMenuPinView.h"
 
-@interface MLPadMenuCourseViewController () {
-    MLMenuPinView *_pinView;
-}
+#define COURSE_MAP_ITEM_CELL_HEIGHT 58
 
-- (void)configurePinView;
+@interface MLPadMenuCourseMapItemViewController ()
 
 @end
 
-@implementation MLPadMenuCourseViewController
+@implementation MLPadMenuCourseMapItemViewController
 
-@synthesize courses = _courses;
-
-#pragma mark - Lifecycle
+@synthesize courseMap = _courseMap;
+@synthesize favorites = _favorites;
+@synthesize course = _course;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
     {
-        self.title = @"Menu";
-        [self configurePinView];
+        // Custom initialization
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [_pinView release];
-
-    [super dealloc];
-}
-
-#pragma mark - Configuration
-
-- (void)configurePinView
-{
-    _pinView = [[MLMenuPinView alloc] init];
-    _pinView.frame = CGRectZero;
-    [self.view addSubview:_pinView];
 }
 
 #pragma mark - TableView DataSource/Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0)
-        return 1;
-    return [self.courses count];
+    if (section == 0 && [self.favorites count] > 0)
+        return [self.favorites count];
+    return [self.courseMap count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MLMenuCourseCell *cell = [[MLMenuCourseCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[NSString stringWithFormat:@"%i%i", indexPath.section, indexPath.row]];
+    MLMenuCourseMapItemCell *cell = [[MLMenuCourseMapItemCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[NSString stringWithFormat:@"%i%i", indexPath.section, indexPath.row]];
     
-    if (indexPath.section == 0) {
-        cell.title = @"Activity Feed";
-        return [cell autorelease];
-    }
+    MLCourseMapItem *courseMapItem = (indexPath.section == 0) ? [self.favorites objectAtIndex:indexPath.row] : [self.courseMap objectAtIndex:indexPath.row];
     
-    MLCourse *course = [self.courses objectAtIndex:indexPath.row];
-    
-    cell.title = course.title;
-    cell.color = course.color;
-    cell.unreadItems = course.unreadItems;
+    cell.title = courseMapItem.name;
+    cell.color = _course.color;
+    cell.unreadItems = courseMapItem.unreadItems;
+    cell.image = [UIImage imageNamed:[MLCourseMapItem iPhoneImageNameForCourseMapItem:courseMapItem]];
     
     return [cell autorelease];
 }
@@ -87,12 +61,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     [self.menuNavigationController popToViewController:self animated:NO];
+        
+    MLCourseMapItem *courseMapItem = (indexPath.section == 0) ? [self.favorites objectAtIndex:indexPath.row] : [self.courseMap objectAtIndex:indexPath.row];
     
-    MLCourse *course = [self.courses objectAtIndex:indexPath.row];
-
     MLPadMenuCourseMapItemViewController *controller = [[[MLPadMenuCourseMapItemViewController alloc] initWithNibName:nil bundle:nil] autorelease];
     
     MLCourseMapItem *week3 = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"Week 3" viewURL:nil linkType:@"" linkTarget:nil isFolder:YES andDateModified:nil] autorelease];
@@ -110,8 +84,8 @@
     
     controller.courseMap = [NSArray arrayWithObjects:blogs, liveText, week1, tools, week4, nil];
     controller.favorites = [NSArray arrayWithObjects:week3, announcements, nil];
-    controller.course = course;
-    controller.title = course.title;
+    controller.course = self.course;
+    controller.title = courseMapItem.name;
     
     [self.menuNavigationController pushViewController:controller animated:YES];
 }
@@ -120,9 +94,15 @@
 
 - (CGRect)navigationBarFrame {
     return CGRectMake(0,
-                      CGRectGetMaxY(_pinView.frame),
+                      0,
                       self.view.bounds.size.width,
                       [self navigationBarHeight]);
+}
+
+#pragma mark - View Overrides
+
+- (float)cellHeight {
+    return COURSE_MAP_ITEM_CELL_HEIGHT;
 }
 
 @end

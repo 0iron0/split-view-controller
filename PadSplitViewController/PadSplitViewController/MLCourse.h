@@ -13,5 +13,6 @@
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) UIColor *color;
 @property (nonatomic, assign) int unreadItems;
+@property (nonatomic, retain) NSArray *courseMap;
 
 @end
