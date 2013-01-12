@@ -8,7 +8,7 @@
 
 #import "MLPixelDivider.h"
 
-#define PIXEL_DIVIDER_POINT_COLOR [UIColor colorWithRed:220.0/255 green:220.0/255 blue:220.0/255 alpha:1.0]
+#define PIXEL_DIVIDER_POINT_COLOR [UIColor colorWithRed:170.0/255 green:170.0/255 blue:170.0/255 alpha:1.0]
 
 @interface MLPixelDivider ()
 
