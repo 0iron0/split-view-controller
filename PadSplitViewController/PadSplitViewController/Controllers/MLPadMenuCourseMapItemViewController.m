@@ -14,6 +14,8 @@
 
 @interface MLPadMenuCourseMapItemViewController ()
 
+- (BOOL)sectionIsFavorites:(int)section;
+
 @end
 
 @implementation MLPadMenuCourseMapItemViewController
@@ -35,16 +37,23 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0 && [self.favorites count] > 0)
+    if ([self sectionIsFavorites:section])
         return [self.favorites count];
     return [self.courseMap count];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    if ([self.favorites count] > 0)
+        return 2;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MLMenuCourseMapItemCell *cell = [[MLMenuCourseMapItemCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[NSString stringWithFormat:@"%i%i", indexPath.section, indexPath.row]];
     
-    MLCourseMapItem *courseMapItem = (indexPath.section == 0) ? [self.favorites objectAtIndex:indexPath.row] : [self.courseMap objectAtIndex:indexPath.row];
+    MLCourseMapItem *courseMapItem = ([self sectionIsFavorites:indexPath.section]) ? [self.favorites objectAtIndex:indexPath.row] : [self.courseMap objectAtIndex:indexPath.row];
     
     cell.title = courseMapItem.name;
     cell.color = _course.color;
@@ -61,33 +70,29 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     [self.menuNavigationController popToViewController:self animated:NO];
+    
+    MLCourseMapItem *courseMapItem = ([self sectionIsFavorites:indexPath.section]) ? [self.favorites objectAtIndex:indexPath.row] : [self.courseMap objectAtIndex:indexPath.row];
+    
+    if (courseMapItem.isFolder)
+    {
+        MLPadMenuCourseMapItemViewController *controller = [[[MLPadMenuCourseMapItemViewController alloc] initWithNibName:nil bundle:nil] autorelease];
         
-    MLCourseMapItem *courseMapItem = (indexPath.section == 0) ? [self.favorites objectAtIndex:indexPath.row] : [self.courseMap objectAtIndex:indexPath.row];
-    
-    MLPadMenuCourseMapItemViewController *controller = [[[MLPadMenuCourseMapItemViewController alloc] initWithNibName:nil bundle:nil] autorelease];
-    
-    MLCourseMapItem *week3 = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"Week 3" viewURL:nil linkType:@"" linkTarget:nil isFolder:YES andDateModified:nil] autorelease];
-    MLCourseMapItem *announcements = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"Announcements" viewURL:nil linkType:@"announcements" linkTarget:nil isFolder:NO andDateModified:nil] autorelease];
-    MLCourseMapItem *blogs = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"Blogs" viewURL:nil linkType:@"blogs" linkTarget:nil isFolder:NO andDateModified:nil] autorelease];
-    MLCourseMapItem *liveText = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"LiveText" viewURL:nil linkType:@"CONTENT" linkTarget:nil isFolder:NO andDateModified:nil] autorelease];
-    MLCourseMapItem *week1 = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"Week 1" viewURL:nil linkType:@"" linkTarget:nil isFolder:YES andDateModified:nil] autorelease];
-    MLCourseMapItem *tools = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"Tools" viewURL:nil linkType:@"" linkTarget:nil isFolder:YES andDateModified:nil] autorelease];
-    MLCourseMapItem *week4 = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"Week 4" viewURL:nil linkType:@"" linkTarget:nil isFolder:YES andDateModified:nil] autorelease];
-    
-    week3.unreadItems = 2;
-    announcements.unreadItems = 1;
-    blogs.unreadItems = 3;
-    week1.unreadItems = 2;
-    
-    controller.courseMap = [NSArray arrayWithObjects:blogs, liveText, week1, tools, week4, nil];
-    controller.favorites = [NSArray arrayWithObjects:week3, announcements, nil];
-    controller.course = self.course;
-    controller.title = courseMapItem.name;
-    
-    [self.menuNavigationController pushViewController:controller animated:YES];
+        MLCourseMapItem *announcements = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"Announcements" viewURL:nil linkType:@"announcements" linkTarget:nil isFolder:NO andDateModified:nil] autorelease];
+        MLCourseMapItem *blogs = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"Blogs" viewURL:nil linkType:@"blogs" linkTarget:nil isFolder:NO andDateModified:nil] autorelease];
+        MLCourseMapItem *liveText = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"LiveText" viewURL:nil linkType:@"CONTENT" linkTarget:nil isFolder:NO andDateModified:nil] autorelease];
+        
+        announcements.unreadItems = 1;
+        blogs.unreadItems = 3;
+        
+        controller.courseMap = [NSArray arrayWithObjects:announcements, blogs, liveText, nil];
+        controller.course = self.course;
+        controller.title = courseMapItem.name;
+        
+        [self performSelector:@selector(pushController:) withObject:controller afterDelay:0.1];
+    }
 }
 
 #pragma mark - Frame Defines
@@ -103,6 +108,12 @@
 
 - (float)cellHeight {
     return COURSE_MAP_ITEM_CELL_HEIGHT;
+}
+
+#pragma mark - Utility
+
+- (BOOL)sectionIsFavorites:(int)section {
+    return (section == 0 && [self.favorites count] > 0);
 }
 
 @end

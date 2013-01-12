@@ -82,7 +82,7 @@
 {
     _rightViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
     _rightViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    _rightViewController.view.backgroundColor = [UIColor colorWithRed:228.0/255 green:228.0/255 blue:228.0/255 alpha:1.0];
+    _rightViewController.view.backgroundColor = [UIColor colorWithRed:235.0/255 green:235.0/255 blue:235.0/255 alpha:1.0];
     [self.view addSubview:_rightViewController.view];
     [self addChildViewController:_rightViewController];
 }

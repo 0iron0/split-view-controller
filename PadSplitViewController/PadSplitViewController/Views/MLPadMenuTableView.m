@@ -8,6 +8,8 @@
 
 #import "MLPadMenuTableView.h"
 
+#define MENU_TABLE_VIEW_BACKGROUND_COLOR [UIColor colorWithRed:235.0/255 green:235.0/255 blue:235.0/255 alpha:1.0]
+
 @interface MLPadMenuTableView ()
 
 - (void)configureSelf;
@@ -29,7 +31,7 @@
 
 - (void)configureSelf
 {
-    self.backgroundColor = [UIColor colorWithRed:246.0/255 green:246.0/255 blue:246.0/255 alpha:1.0];
+    self.backgroundColor = MENU_TABLE_VIEW_BACKGROUND_COLOR;
     self.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 

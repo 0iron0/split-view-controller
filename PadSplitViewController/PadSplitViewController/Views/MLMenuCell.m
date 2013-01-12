@@ -8,23 +8,27 @@
 
 #import "MLMenuCell.h"
 
-#define MENU_CELL_FONT [UIFont systemFontOfSize:16]
+#define MENU_CELL_FONT [UIFont fontWithName:@"Lato-Bold" size:17.0]
 #define MENU_CELL_TEXT_LEFT_BUFFER 16
 #define MENU_CELL_TEXT_RIGHT_BUFFER 4
-#define MENU_CELL_DEFAUL_TEXT_COLOR [UIColor colorWithRed:45.0/255 green:45.0/255 blue:45.0/255 alpha:1.0]
+#define MENU_CELL_DEFAULT_TEXT_COLOR [UIColor colorWithRed:45.0/255 green:45.0/255 blue:45.0/255 alpha:1.0]
 
 #define MENU_CELL_COLOR_BAR_WIDTH 6
 #define MENU_CELL_COLOR_BAR_BUFFER 12
 
 #define MENU_CELL_UNREAD_ITEMS_VIEW_HEIGHT 20
+#define MENU_CELL_UNREAD_ITEMS_FONT [UIFont fontWithName:@"Lato-Bold" size:12.0]
 
 #define MENU_CELL_ARROW_BUFFER 10
+
+#define MENU_CELL_SELECTED_GRAY_COLOR [UIColor colorWithRed:232.0/255 green:232.0/255 blue:232.0/255 alpha:1.0]
 
 @interface MLMenuCell () {
     UIView *_colorBar;
     UIView *_unreadItemsView;
     UIImageView *_arrow;
     UILabel *_unreadItemsLabel;
+    UIView *_selectionView;
 }
 
 - (void)configureSelf;
@@ -33,9 +37,12 @@
 - (void)configureUnreadItemsView;
 - (void)configureUnreadItemsLabel;
 - (void)configureArrow;
+- (void)configureSelectionView;
 
 - (void)hideView:(UIView *)view animated:(BOOL)animated;
 - (void)showView:(UIView *)view animated:(BOOL)animated;
+
+- (void)animateSelectionViewIn;
 
 - (CGRect)colorBarFrame;
 - (CGRect)unreadItemsViewFrame;
@@ -62,6 +69,8 @@
         [self configureUnreadItemsView];
         [self configureUnreadItemsLabel];
         [self configureArrow];
+        [self configureSelectionView];
+        self.color = [UIColor colorWithRed:75.0/255 green:75.0/255 blue:75.0/255 alpha:1.0];
     }
     return self;
 }
@@ -73,6 +82,7 @@
     [_unreadItemsView release];
     [_unreadItemsLabel release];
     [_arrow release];
+    [_selectionView release];
     
     [super dealloc];
 }
@@ -82,13 +92,9 @@
     [super layoutSubviews];
     
     self.textLabel.frame = [self textLabelFrame];
+    self.textLabel.backgroundColor = [UIColor clearColor];
     _arrow.frame = [self arrowFrame];
     _unreadItemsView.frame = [self unreadItemsViewFrame];
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
 }
 
 #pragma mark - View Configuration
@@ -96,6 +102,8 @@
 - (void)configureSelf
 {
     self.backgroundColor = [UIColor clearColor];
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.clipsToBounds = YES;
 }
 
 - (void)configureTextLabel
@@ -127,7 +135,7 @@
     _unreadItemsLabel = [[UILabel alloc] init];
     _unreadItemsLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     _unreadItemsLabel.frame = [self unreadItemsLabelFrame];
-    _unreadItemsLabel.font = [UIFont boldSystemFontOfSize:12];
+    _unreadItemsLabel.font = MENU_CELL_UNREAD_ITEMS_FONT;
     _unreadItemsLabel.textColor = [UIColor whiteColor];
     _unreadItemsLabel.textAlignment = NSTextAlignmentCenter;
     _unreadItemsLabel.backgroundColor = [UIColor clearColor];
@@ -138,6 +146,16 @@
 {
     _arrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow.png"]];
     [self addSubview:_arrow];
+}
+
+- (void)configureSelectionView
+{
+    _selectionView = [[UIView alloc] init];
+    _selectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    _selectionView.frame = self.bounds;
+    _selectionView.alpha = 0;
+    [self addSubview:_selectionView];
+    [self sendSubviewToBack:_selectionView];
 }
 
 #pragma mark - View Showing/Hiding
@@ -160,6 +178,41 @@
      ];
 }
 
+#pragma mark - Selection
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    if (selected)
+    {
+        _selectionView.alpha = 1;
+        self.textLabel.textColor = MENU_CELL_SELECTED_GRAY_COLOR;
+        [self animateSelectionViewIn];
+    }
+    else
+    {
+        _selectionView.alpha = 0;
+        self.textLabel.textColor = [self textLabelColor];
+        _unreadItemsView.backgroundColor = _color;
+        _unreadItemsLabel.textColor = [UIColor whiteColor];
+    }
+}
+
+- (void)animateSelectionViewIn
+{
+    CGRect previousFrame = _selectionView.frame;
+    _selectionView.frame = CGRectMake(previousFrame.origin.x - previousFrame.size.width, previousFrame.origin.y, previousFrame.size.width, previousFrame.size.height);
+    [UIView animateWithDuration:0.25
+                          delay:0
+                        options:UIViewAnimationCurveEaseInOut
+                     animations:^(void) {
+                         _selectionView.frame = previousFrame;
+                         _unreadItemsView.backgroundColor = MENU_CELL_SELECTED_GRAY_COLOR;
+                         _unreadItemsLabel.textColor = _color;
+                     }
+                     completion:^(BOOL finished) {
+                     }];
+}
+
 #pragma mark - Setters and Getters
 
 - (void)setTitle:(NSString *)title {
@@ -176,6 +229,8 @@
     
     _colorBar.backgroundColor = _color;
     _unreadItemsView.backgroundColor = _color;
+    _selectionView.backgroundColor = _color;
+    self.textLabel.textColor = [self textLabelColor];
 }
 
 - (void)setUnreadItems:(int)unreadItems {
@@ -233,6 +288,10 @@
 
 - (float)textLeftBuffer {
     return MENU_CELL_TEXT_LEFT_BUFFER;
+}
+
+- (UIColor *)textLabelColor {
+    return MENU_CELL_DEFAULT_TEXT_COLOR;
 }
 
 @end

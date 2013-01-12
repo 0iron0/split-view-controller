@@ -16,7 +16,7 @@
 @property (nonatomic, assign) int unreadItems;
 
 - (CGRect)textLabelFrame;
-
 - (float)textLeftBuffer;
+- (UIColor *)textLabelColor;
 
 @end

@@ -15,9 +15,9 @@
 #define MENU_NAVIGATION_BAR_HEIGHT 44
 #define MENU_CONTROLLER_CELL_HEIGHT 68
 #define MENU_RIGHT_DIVIDER_WIDTH 1
-#define MENU_RIGHT_DIVIDER_COLOR [UIColor colorWithRed:227.0/255 green:227.0/255 blue:227.0/255 alpha:1.0]
+#define MENU_RIGHT_DIVIDER_COLOR [UIColor colorWithRed:217.0/255 green:217.0/255 blue:217.0/255 alpha:1.0]
 
-#define MENU_SECTION_HEADER_HEIGHT 50
+#define MENU_SECTION_HEADER_HEIGHT 32
 
 @interface MLPadMenuViewController () {
     MLPadMenuTableView *_tableView;
@@ -85,6 +85,7 @@
     _navigationBar = [[MLPadMenuNavigationBar alloc] init];
     _navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _navigationBar.frame = [self navigationBarFrame];
+    _navigationBar.parent = self;
     [self.view addSubview:_navigationBar];
 }
 
@@ -112,6 +113,14 @@
     _rightDivider.frame = [self rightDividerFrame];
     _rightDivider.backgroundColor = MENU_RIGHT_DIVIDER_COLOR;
     [self.view addSubview:_rightDivider];
+}
+
+#pragma mark - Button Handling
+
+- (void)backButtonPressed
+{
+    [self.menuNavigationController popViewControllerAnimated:YES]; //NOTE: should not pop for final version, just slide over
+    [_navigationBar setBackButtonEnabled:NO animated:YES];
 }
 
 #pragma mark - Frames
@@ -170,6 +179,16 @@
     if (section == 0)
         return nil;
     return [[[MLMenuSectionHeaderView alloc] init] autorelease];
+}
+
+- (void)pushController:(UIViewController <MenuViewController>*)controller
+{
+    if (![[NSThread currentThread] isMainThread])
+    {
+        [self performSelectorOnMainThread:@selector(pushController:) withObject:controller waitUntilDone:YES];
+        return;
+    }
+    [self.menuNavigationController pushViewController:controller animated:YES];
 }
 
 #pragma mark - Overrides

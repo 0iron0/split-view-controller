@@ -68,6 +68,7 @@
     
     if (indexPath.section == 0) {
         cell.title = @"Activity Feed";
+//        cell.unreadItems = 1;
         return [cell autorelease];
     }
     
@@ -113,7 +114,7 @@
     controller.course = course;
     controller.title = course.title;
     
-    [self.menuNavigationController pushViewController:controller animated:YES];
+    [self performSelector:@selector(pushController:) withObject:controller afterDelay:0.10];
 }
 
 #pragma mark - Frame Defines

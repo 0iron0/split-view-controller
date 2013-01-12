@@ -7,17 +7,19 @@
 //
 
 #import "MLMenuSectionHeaderView.h"
+#import "MLPixelDivider.h"
 
-#define MENU_HEADER_IMAGE_BUFFER 14
+#define MENU_HEADER_PIXEL_DIVIDER_BUFFER 20
+#define MENU_HEADER_PIXEL_DIVIDER_HEIGHT 10
 
 @interface MLMenuSectionHeaderView () {
-    UIImageView *_imageView;
+    UIView *_pixelDivider;
 }
 
 - (void)configureSelf;
-- (void)configureImageView;
+- (void)configurePixelDivider;
 
-- (CGRect)imageViewFrame;
+- (CGRect)pixelDividerFrame;
 
 @end
 
@@ -30,14 +32,14 @@
     if (self = [super initWithFrame:frame])
     {
         [self configureSelf];
-        [self configureImageView];
+        [self configurePixelDivider];
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [_imageView release];
+    [_pixelDivider release];
     
     [super dealloc];
 }
@@ -46,8 +48,8 @@
 {
     [super layoutSubviews];
     
-    _imageView.frame = [self imageViewFrame];
-}
+    _pixelDivider.frame = [self pixelDividerFrame];
+}    
 
 #pragma mark - Configuration
 
@@ -56,19 +58,19 @@
     self.backgroundColor = [UIColor clearColor];
 }
 
-- (void)configureImageView
+- (void)configurePixelDivider
 {
-    _imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"horizontalRule.png"]];
-    [self addSubview:_imageView];
+    _pixelDivider = [[MLPixelDivider alloc] init];
+    [self addSubview:_pixelDivider];
 }
 
 #pragma mark - Frames
 
-- (CGRect)imageViewFrame {
-    return CGRectMake(MENU_HEADER_IMAGE_BUFFER,
-                      CGRectGetMidY(self.bounds) - [UIImage imageNamed:@"horizontalRule.png"].size.height/2,
-                      self.bounds.size.width - MENU_HEADER_IMAGE_BUFFER*2,
-                      [UIImage imageNamed:@"horizontalRule.png"].size.height);
+- (CGRect)pixelDividerFrame {
+    return CGRectMake(MENU_HEADER_PIXEL_DIVIDER_BUFFER,
+                      CGRectGetMidY(self.bounds) - MENU_HEADER_PIXEL_DIVIDER_HEIGHT/2,
+                      self.bounds.size.width - MENU_HEADER_PIXEL_DIVIDER_BUFFER*2,
+                      MENU_HEADER_PIXEL_DIVIDER_HEIGHT);
 }
 
 @end

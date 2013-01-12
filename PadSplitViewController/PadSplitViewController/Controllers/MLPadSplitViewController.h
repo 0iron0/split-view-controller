@@ -13,7 +13,7 @@
 @required
 
 
-@property (nonatomic, assign) int visibleControllers;
+@property (nonatomic, readonly) int visibleControllers;
 @property (nonatomic, assign) int maxVisibleControllers;
 @property (nonatomic, assign) CGRect minVisibleFrame;
 @property (nonatomic, readonly) CGRect totalFrame;

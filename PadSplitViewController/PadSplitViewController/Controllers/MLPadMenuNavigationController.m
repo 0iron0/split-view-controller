@@ -8,6 +8,7 @@
 
 #import "MLPadMenuNavigationController.h"
 #import "MLPadMenuViewController.h"
+#import "MLPadMenuNavigationBar.h"
 
 @interface MLPadMenuNavigationController () {
     NSMutableArray *_viewControllers;
@@ -29,7 +30,7 @@
 @implementation MLPadMenuNavigationController
 
 @synthesize minVisibleFrame = _minVisibleFrame;
-@synthesize visibleControllers = _visibleControllers;
+@synthesize visibleControllers;
 @synthesize maxVisibleControllers = _maxVisibleControllers;
 
 - (id)initWithRootViewController:(UIViewController <MenuViewController> *)rootController
@@ -75,7 +76,6 @@
 {
     _firstVisibleIndex = 0;
     _viewControllers = [[NSMutableArray arrayWithCapacity:0] retain];
-    _visibleControllers = 1;
     _maxVisibleControllers = 1;
     self.view.clipsToBounds = NO;
 }
@@ -83,29 +83,23 @@
 #pragma mark - Pushing and Popping
 
 - (void)pushViewController:(UIViewController <MenuViewController> *)viewController animated:(BOOL)animated
-{
-    viewController.view.frame = self.topViewController.view.frame;
-    [self addController:viewController];
-    [self.view sendSubviewToBack:viewController.view];
-    
+{    
     if (self.visibleControllers < self.maxVisibleControllers)
     {
+        [self addController:viewController];
         [self slideControllerForwards:viewController];
-        self.visibleControllers++;
     }
     else
     {
-        for (int i = 0; i < [_viewControllers count]-1; i++)
-        {
-            [self slideControllerBackwards:[_viewControllers objectAtIndex:i]];
-        }
-        _firstVisibleIndex++;
+        [self slideBackwards];
+        [self addController:viewController];
     }
 }
 
 - (void)popViewControllerAnimated:(BOOL)animated
 {
-    [self removeController:[_viewControllers objectAtIndex:[_viewControllers count]-1]];
+    [self removeController:self.topViewController];
+    [self slideForwards];
 }
 
 - (void)popToRootViewControllerAnimated:(BOOL)animated
@@ -131,7 +125,9 @@
 
 - (void)addController:(UIViewController <MenuViewController> *)controller
 {
+    controller.view.frame = self.topViewController.view.frame;
     [self.view addSubview:controller.view];
+    [self.view sendSubviewToBack:controller.view];
     [_viewControllers addObject:controller];
     controller.menuNavigationController = self;
     
@@ -144,11 +140,6 @@
 {
     [controller.view removeFromSuperview];
     [_viewControllers removeObject:controller];
-    
-    if (self.visibleControllers > [_viewControllers count])
-        self.visibleControllers = [_viewControllers count];
-    else
-        self.visibleControllers = fminf([_viewControllers count] - _firstVisibleIndex, self.maxVisibleControllers);
     
     CGRect viewFrame = self.view.frame;
     viewFrame.size.width -= self.minVisibleFrame.size.width;
@@ -163,6 +154,7 @@
     {
         [self slideControllerForwards:controller];
     }
+    _firstVisibleIndex--;
 }
 
 - (void)slideBackwards
@@ -171,13 +163,14 @@
     {
         [self slideControllerBackwards:controller];
     }
+    _firstVisibleIndex++;
 }
 
 - (void)slideControllerForwards:(UIViewController *)controller
 {
     [UIView animateWithDuration:0.3
                           delay:0
-                        options:UIViewAnimationCurveEaseInOut
+                        options:UIViewAnimationCurveEaseOut
                      animations:^(void) {
                          controller.view.frame = CGRectMake(controller.view.frame.origin.x + controller.view.frame.size.width,
                                                             controller.view.frame.origin.y,
@@ -191,9 +184,12 @@
 
 - (void)slideControllerBackwards:(UIViewController *)controller
 {
+    MLPadMenuViewController *firstVisibleController = [_viewControllers objectAtIndex:_firstVisibleIndex+1];
+    [firstVisibleController.navigationBar setBackButtonEnabled:YES animated:YES];
+
     [UIView animateWithDuration:0.3
                           delay:0
-                        options:UIViewAnimationCurveEaseOut
+                        options:UIViewAnimationCurveEaseInOut
                      animations:^(void) {
                          controller.view.frame = CGRectMake(controller.view.frame.origin.x - controller.view.frame.size.width,
                                                             controller.view.frame.origin.y,
@@ -201,13 +197,14 @@
                                                             controller.view.frame.size.height);
                      }
                      completion:^(BOOL finished) {
-                         
                      }];
 }
 
 #pragma mark - Getters
 
 - (UIViewController *)topViewController {
+    if ([_viewControllers count] == 0)
+        return nil;
     return [_viewControllers objectAtIndex:[_viewControllers count]-1];
 }
 
@@ -224,9 +221,9 @@
 - (void)setMinVisibleFrame:(CGRect)minVisibleFrame {
     _minVisibleFrame = minVisibleFrame;
 }
-- (void)setVisibleControllers:(int)visibleControllers {
-    _visibleControllers = visibleControllers;
 
+- (int)visibleControllers {
+    return fminf([_viewControllers count] - _firstVisibleIndex, self.maxVisibleControllers);
 }
 
 #pragma mark - Utility

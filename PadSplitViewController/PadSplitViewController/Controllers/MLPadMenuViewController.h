@@ -10,10 +10,12 @@
 #import "MLPadMenuNavigationController.h"
 #import "MLPadMenuNavigationBar.h"
 
-@interface MLPadMenuViewController : UIViewController <MenuViewController, UITableViewDataSource, UITableViewDelegate>
+@interface MLPadMenuViewController : UIViewController <MenuViewController, MenuNavigationBarParent, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, assign) MLPadMenuNavigationController *menuNavigationController;
 @property (nonatomic, retain) MLPadMenuNavigationBar *navigationBar;
+
+- (void)pushController:(UIViewController <MenuViewController>*)controller;
 
 - (CGRect)navigationBarFrame;
 

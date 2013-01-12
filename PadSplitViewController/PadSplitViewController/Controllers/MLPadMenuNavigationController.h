@@ -22,7 +22,7 @@
 @property (nonatomic, readonly) UIViewController <MenuViewController> *visibleViewController;
 @property (nonatomic, readonly) NSMutableArray *viewControllers;
 @property (nonatomic, assign) CGRect minVisibleFrame;
-@property (nonatomic, assign) int visibleControllers;
+@property (nonatomic, readonly) int visibleControllers;
 @property (nonatomic, assign) int maxVisibleControllers;
 
 - (id)initWithRootViewController:(UIViewController <MenuViewController> *)rootController;

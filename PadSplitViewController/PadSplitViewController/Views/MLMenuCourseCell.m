@@ -10,9 +10,8 @@
 
 @implementation MLMenuCourseCell
 
-- (void)setColor:(UIColor *)color {
-    [super setColor:color];
-    self.textLabel.textColor = color;
+- (UIColor *)textLabelColor {
+    return self.color;
 }
 
 @end
