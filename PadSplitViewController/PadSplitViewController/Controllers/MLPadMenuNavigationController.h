@@ -24,6 +24,7 @@
 @property (nonatomic, assign) CGRect minVisibleFrame;
 @property (nonatomic, readonly) int visibleControllers;
 @property (nonatomic, assign) int maxVisibleControllers;
+@property (nonatomic, assign) MLPadSplitViewController *parent;
 
 - (id)initWithRootViewController:(UIViewController <MenuViewController> *)rootController;
 
@@ -31,7 +32,7 @@
 - (void)popViewControllerAnimated:(BOOL)animated;
 - (void)popToRootViewControllerAnimated:(BOOL)animated;
 - (void)popToViewController:(UIViewController *)viewController animated:(BOOL)animated;
-- (void)presentContentViewController:(UIViewController *)viewController animated:(BOOL)animated;
+- (void)presentContentControllerForItem:(MLCourseMapItem *)item animated:(BOOL)animated;
 
 - (void)slideForwards;
 - (void)slideBackwards;

@@ -93,6 +93,10 @@
         
         [self performSelector:@selector(pushController:) withObject:controller afterDelay:0.1];
     }
+    else
+    {
+        [self.menuNavigationController presentContentControllerForItem:courseMapItem animated:YES];
+    }
 }
 
 #pragma mark - Frame Defines

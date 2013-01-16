@@ -65,6 +65,9 @@
 		34647FFE16976CA900183D40 /* MLPadMenuTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34647FFC16976CA900183D40 /* MLPadMenuTableView.m */; };
 		3464802116978A0E00183D40 /* MLMenuFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3464802016978A0E00183D40 /* MLMenuFooterView.m */; };
 		3464802216978A0E00183D40 /* MLMenuFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3464802016978A0E00183D40 /* MLMenuFooterView.m */; };
+		349F9A6916A4C5EC007C9C70 /* MLPadRightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 349F9A6816A4C5EC007C9C70 /* MLPadRightViewController.m */; };
+		349F9A6C16A4ED49007C9C70 /* 6.2-Comment.png in Resources */ = {isa = PBXBuildFile; fileRef = 349F9A6B16A4ED49007C9C70 /* 6.2-Comment.png */; };
+		349F9AB716A765BC007C9C70 /* MLPadContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 349F9AB616A765BC007C9C70 /* MLPadContentViewController.m */; };
 		34E98D5C169B6AF0001229B3 /* MLMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E98D5B169B6AF0001229B3 /* MLMenuCell.m */; };
 		34E98D60169B6C0F001229B3 /* MLCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E98D5F169B6C0E001229B3 /* MLCourse.m */; };
 		34E98D63169B7942001229B3 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 34E98D61169B7942001229B3 /* arrow.png */; };
@@ -181,6 +184,11 @@
 		34647FFC16976CA900183D40 /* MLPadMenuTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPadMenuTableView.m; sourceTree = "<group>"; };
 		3464801F16978A0E00183D40 /* MLMenuFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLMenuFooterView.h; sourceTree = "<group>"; };
 		3464802016978A0E00183D40 /* MLMenuFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLMenuFooterView.m; sourceTree = "<group>"; };
+		349F9A6716A4C5EC007C9C70 /* MLPadRightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPadRightViewController.h; sourceTree = "<group>"; };
+		349F9A6816A4C5EC007C9C70 /* MLPadRightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPadRightViewController.m; sourceTree = "<group>"; };
+		349F9A6B16A4ED49007C9C70 /* 6.2-Comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6.2-Comment.png"; sourceTree = "<group>"; };
+		349F9AB516A765BC007C9C70 /* MLPadContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPadContentViewController.h; sourceTree = "<group>"; };
+		349F9AB616A765BC007C9C70 /* MLPadContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPadContentViewController.m; sourceTree = "<group>"; };
 		34E98D5A169B6AF0001229B3 /* MLMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLMenuCell.h; sourceTree = "<group>"; };
 		34E98D5B169B6AF0001229B3 /* MLMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLMenuCell.m; sourceTree = "<group>"; };
 		34E98D5E169B6C0E001229B3 /* MLCourse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLCourse.h; sourceTree = "<group>"; };
@@ -359,6 +367,7 @@
 				34E98D62169B7942001229B3 /* arrow@2x.png */,
 				34E98D65169B8725001229B3 /* horizontalRule.png */,
 				34E98D66169B8725001229B3 /* horizontalRule@2x.png */,
+				349F9A6B16A4ED49007C9C70 /* 6.2-Comment.png */,
 				34E98DBE169CDB94001229B3 /* Resources */,
 			);
 			name = "Supporting Files";
@@ -396,6 +405,10 @@
 				34E98D72169CCDA5001229B3 /* MLPadMenuCourseViewController.m */,
 				34E98D74169CCDBF001229B3 /* MLPadMenuCourseMapItemViewController.h */,
 				34E98D75169CCDBF001229B3 /* MLPadMenuCourseMapItemViewController.m */,
+				349F9A6716A4C5EC007C9C70 /* MLPadRightViewController.h */,
+				349F9A6816A4C5EC007C9C70 /* MLPadRightViewController.m */,
+				349F9AB516A765BC007C9C70 /* MLPadContentViewController.h */,
+				349F9AB616A765BC007C9C70 /* MLPadContentViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -612,6 +625,7 @@
 				341BBF8816A0C805003939CF /* Lato-Light.ttf in Resources */,
 				341BBF8916A0C805003939CF /* Lato-LightItalic.ttf in Resources */,
 				341BBF8A16A0C805003939CF /* Lato-Regular.ttf in Resources */,
+				349F9A6C16A4ED49007C9C70 /* 6.2-Comment.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -675,6 +689,8 @@
 				34E98D79169CD527001229B3 /* MLMenuCourseMapItemCell.m in Sources */,
 				34E98DBC169CDA1F001229B3 /* MLCourseMapItem.m in Sources */,
 				341BBF8D16A0D648003939CF /* MLPixelDivider.m in Sources */,
+				349F9A6916A4C5EC007C9C70 /* MLPadRightViewController.m in Sources */,
+				349F9AB716A765BC007C9C70 /* MLPadContentViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

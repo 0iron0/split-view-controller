@@ -9,7 +9,9 @@
 #import "MLPadSplitViewController.h"
 #import "MLPadMenuNavigationController.h"
 #import "MLPadMenuCourseViewController.h"
+#import "MLPadRightViewController.h"
 #import "MLCourse.h"
+#import "MLCourseMapItem.h"
 
 @interface MLPadSplitViewController ()
 
@@ -20,6 +22,8 @@
 - (CGRect)leftControllerTwoQuarterViewRect;
 - (CGRect)leftControllerThreeQuarterViewRect;
 - (CGRect)rightControllerFrame;
+
+- (CGSize)padViewSize;
 
 @end
 
@@ -52,7 +56,7 @@
     _leftViewController.minVisibleFrame = [self leftControllerQuarterViewRect];
     _leftViewController.maxVisibleControllers = 2;
     _leftViewController.view.frame = _leftViewController.totalFrame;
-    _rightViewController.view.frame = [self rightControllerFrame];
+    _rightViewController.view.frame = [self rightControllerFrame];    
 }
 
 - (void)didReceiveMemoryWarning
@@ -73,6 +77,7 @@
     _leftViewController = [[MLPadMenuNavigationController alloc] initWithRootViewController:rootController];
     _leftViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     _leftViewController.view.autoresizesSubviews = NO;
+    _leftViewController.parent = self;
     [self.view addSubview:_leftViewController.view];
     
     [rootController release];
@@ -80,18 +85,18 @@
 
 - (void)configureRightViewController
 {
-    _rightViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
-    _rightViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    _rightViewController.view.backgroundColor = [UIColor colorWithRed:235.0/255 green:235.0/255 blue:235.0/255 alpha:1.0];
+    _rightViewController = [[MLPadRightViewController alloc] initWithNibName:nil bundle:nil];
+//    _rightViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+//    _rightViewController.view.backgroundColor = [UIColor colorWithRed:235.0/255 green:235.0/255 blue:235.0/255 alpha:1.0];
     [self.view addSubview:_rightViewController.view];
-    [self addChildViewController:_rightViewController];
+//    [self addChildViewController:_rightViewController];
 }
 
 #pragma mark - Controller Presentation Methods
 
-- (void)presentContentViewController:(UIViewController *)viewController animated:(BOOL)animated
+- (void)presentContentControllerForItem:(MLCourseMapItem *)item animated:(BOOL)animated
 {
-    
+    [_rightViewController presentContentControllerForItem:item animated:animated];
 }
 
 - (void)presentPopupViewController:(UIViewController *)viewController animated:(BOOL)animated
@@ -104,34 +109,47 @@
     
 }
 
+- (void)slideContentControllerRight
+{
+    if ([_rightViewController isDisplayingController])
+        [_rightViewController slideRight];
+}
+
 #pragma mark - Frame Defines
 
 - (CGRect)leftControllerQuarterViewRect {
     return CGRectMake(self.view.bounds.origin.x,
                       self.view.bounds.origin.y,
-                      floorf(self.view.bounds.size.width / 4),
+                      floorf([self padViewSize].width / 4),
                       self.view.bounds.size.height);
 }
 
 - (CGRect)leftControllerTwoQuarterViewRect {
     return CGRectMake(self.view.bounds.origin.x,
                       self.view.bounds.origin.y,
-                      floorf(self.view.bounds.size.width / 2),
+                      floorf([self padViewSize].width / 2),
                       self.view.bounds.size.height);
 }
 
 - (CGRect)leftControllerThreeQuarterViewRect {
     return CGRectMake(self.view.bounds.origin.x,
                       self.view.bounds.origin.y,
-                      floorf(self.view.bounds.size.width / 4) * 3,
+                      floorf([self padViewSize].width / 4) * 3,
                       self.view.bounds.size.height);
 }
 
 - (CGRect)rightControllerFrame {
     return CGRectMake(CGRectGetMaxX(_leftViewController.minVisibleFrame),
                       _leftViewController.minVisibleFrame.origin.y,
-                      floorf(self.view.bounds.size.width / 4) * 3,
+                      floorf([self padViewSize].width / 4) * 3,
                       _leftViewController.minVisibleFrame.size.height);
+}
+
+#pragma mark - Utility
+
+- (CGSize)padViewSize {
+    return CGSizeMake(fmaxf(self.view.bounds.size.width, self.view.bounds.size.height),
+                      fminf(self.view.bounds.size.width, self.view.bounds.size.height));
 }
 
 #pragma mark - Temporary Methods

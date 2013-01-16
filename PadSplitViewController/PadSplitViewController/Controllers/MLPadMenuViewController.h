@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLPadMenuNavigationController.h"
 #import "MLPadMenuNavigationBar.h"
+#import "MLPadSplitViewController.h"
 
 @interface MLPadMenuViewController : UIViewController <MenuViewController, MenuNavigationBarParent, UITableViewDataSource, UITableViewDelegate>
 

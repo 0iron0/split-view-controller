@@ -119,7 +119,7 @@
 
 - (void)backButtonPressed
 {
-    [self.menuNavigationController popViewControllerAnimated:YES]; //NOTE: should not pop for final version, just slide over
+    [self.menuNavigationController slideForwards]; //NOTE: should not pop for final version, just slide over
     [_navigationBar setBackButtonEnabled:NO animated:YES];
 }
 

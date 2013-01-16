@@ -32,6 +32,7 @@
 @synthesize minVisibleFrame = _minVisibleFrame;
 @synthesize visibleControllers;
 @synthesize maxVisibleControllers = _maxVisibleControllers;
+@synthesize parent;
 
 - (id)initWithRootViewController:(UIViewController <MenuViewController> *)rootController
 {
@@ -88,6 +89,7 @@
     {
         [self addController:viewController];
         [self slideControllerForwards:viewController];
+        [self.parent slideContentControllerRight];
     }
     else
     {
@@ -116,11 +118,12 @@
     }
 }
 
-- (void)presentContentViewController:(UIViewController *)viewController animated:(BOOL)animated
+- (void)presentContentControllerForItem:(MLCourseMapItem *)item animated:(BOOL)animated
 {
     //if iphone, just pushViewController
     
-    //if ipad tell parent to present
+    [self.parent presentContentControllerForItem:item animated:animated];
+    [self performSelector:@selector(slideBackwards) withObject:nil afterDelay:0.2];
 }
 
 - (void)addController:(UIViewController <MenuViewController> *)controller
@@ -159,6 +162,14 @@
 
 - (void)slideBackwards
 {
+    if (![[NSThread currentThread] isMainThread])
+    {
+        [self performSelectorOnMainThread:@selector(slideBackwards) withObject:nil waitUntilDone:YES];
+        return;
+    }
+    if (_firstVisibleIndex == [_viewControllers count]-1)
+        return;
+    
     for (UIViewController *controller in _viewControllers)
     {
         [self slideControllerBackwards:controller];
