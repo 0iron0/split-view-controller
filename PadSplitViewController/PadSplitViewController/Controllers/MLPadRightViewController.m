@@ -13,6 +13,8 @@
 @interface MLPadRightViewController () {
     UIView *_backgroundNavBar;
     UIView *_backgroundView;
+    UIView *_fadeView;
+    UITapGestureRecognizer *_tapRecognizer;
 }
 
 @property (nonatomic, retain) UIViewController *viewController;
@@ -20,6 +22,13 @@
 - (void)configureBackgroundView;
 - (void)configureNavBar;
 - (void)configureBottomDivider;
+- (void)configureFadeView;
+- (void)configureTapRecognizer;
+
+- (void)addFade;
+- (void)removeFade;
+
+- (void)fadeTapped:(UITapGestureRecognizer *)recognizer;
 
 - (void)animateControllerFromRight:(UIViewController *)controller animated:(BOOL)animated;
 
@@ -38,6 +47,8 @@
 //        [self configureBackgroundView];
         [self configureNavBar];
         [self configureBottomDivider];
+        [self configureFadeView];
+        [self configureTapRecognizer];
     }
     return self;
 }
@@ -45,6 +56,8 @@
 - (void)dealloc
 {
     [_viewController release];
+    [_fadeView release];
+    [_tapRecognizer release];
     
     [super dealloc];
 }
@@ -84,6 +97,36 @@
     [bottomDivider release];
 }
 
+- (void)configureFadeView
+{
+    _fadeView = [[UIView alloc] init];
+    _fadeView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    _fadeView.backgroundColor = [UIColor whiteColor];
+    _fadeView.alpha = 0;
+}
+
+- (void)configureTapRecognizer
+{
+    _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fadeTapped:)];
+}
+
+- (void)addFade
+{
+    _fadeView.frame = _viewController.view.bounds;
+    [_viewController.view addSubview:_fadeView];
+}
+
+- (void)removeFade
+{
+    [_fadeView removeFromSuperview];
+    _fadeView.alpha = 0;
+}
+
+- (void)fadeTapped:(UITapGestureRecognizer *)recognizer
+{
+    
+}
+
 #pragma mark - Content Presentation
 
 - (void)presentContentControllerForItem:(MLCourseMapItem *)item animated:(BOOL)animated
@@ -117,6 +160,7 @@
                          controller.view.frame = destinationFrame;
                          
                      } completion:^(BOOL finished) {
+                         [self removeFade];
                          [self.view.superview bringSubviewToFront:self.view];
                          [_viewController.view removeFromSuperview];
                          self.viewController = controller;
@@ -127,12 +171,15 @@
 {
     CGRect destinationFrame = _viewController.view.frame;
     destinationFrame.origin.x += (destinationFrame.size.width/3);
-    
+    [self addFade];
+    _fadeView.alpha = 0;
+
     [UIView animateWithDuration:0.3
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          _viewController.view.frame = destinationFrame;
+                         _fadeView.alpha = 0.7;
                      } completion:^(BOOL finished) {
                          
                      }];
@@ -142,6 +189,10 @@
 
 - (BOOL)isDisplayingController {
     return (_viewController != nil);
+}
+
+- (BOOL)isFaded {
+    return (_fadeView.alpha > 0);
 }
 
 @end

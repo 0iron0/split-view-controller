@@ -11,7 +11,7 @@
 
 @class MLCourseMapItem;
 
-@interface MLPadRightViewController : UIViewController <RightViewControllerProtocol>
+@interface MLPadRightViewController : UIViewController
 
 - (void)presentContentControllerForItem:(MLCourseMapItem *)item animated:(BOOL)animated;
 - (void)presentWebControllerForURL:(NSURL *)url;
@@ -19,5 +19,6 @@
 - (void)slideRight;
 
 - (BOOL)isDisplayingController;
+- (BOOL)isFaded;
 
 @end

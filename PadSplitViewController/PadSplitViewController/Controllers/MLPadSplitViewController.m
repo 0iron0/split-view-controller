@@ -111,7 +111,7 @@
 
 - (void)slideContentControllerRight
 {
-    if ([_rightViewController isDisplayingController])
+    if ([_rightViewController isDisplayingController] && ![_rightViewController isFaded])
         [_rightViewController slideRight];
 }
 
@@ -139,7 +139,7 @@
 }
 
 - (CGRect)rightControllerFrame {
-    return CGRectMake(CGRectGetMaxX(_leftViewController.minVisibleFrame),
+    return CGRectMake(CGRectGetMaxX(_leftViewController.minVisibleFrame) * _leftViewController.visibleControllers,
                       _leftViewController.minVisibleFrame.origin.y,
                       floorf([self padViewSize].width / 4) * 3,
                       _leftViewController.minVisibleFrame.size.height);

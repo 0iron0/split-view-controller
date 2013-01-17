@@ -22,16 +22,6 @@
 
 @end
 
-@protocol RightViewControllerProtocol <NSObject>
-
-@required
-- (void)presentContentControllerForItem:(MLCourseMapItem *)item animated:(BOOL)animated;
-- (void)presentWebControllerForURL:(NSURL *)url;
-- (BOOL)isDisplayingController;
-- (void)slideRight;
-
-@end
-
 @interface MLPadSplitViewController : UIViewController
 
 @property (nonatomic, retain) UIViewController <LeftViewControllerProtocol> *leftViewController;
