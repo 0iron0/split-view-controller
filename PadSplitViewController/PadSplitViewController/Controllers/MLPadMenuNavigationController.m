@@ -13,6 +13,7 @@
 @interface MLPadMenuNavigationController () {
     NSMutableArray *_viewControllers;
     int _firstVisibleIndex;
+    NSMutableArray *_controllersForRemoval;
 }
 
 - (void)configureSelf;
@@ -22,6 +23,8 @@
 
 - (void)slideControllerForwards:(UIViewController *)controller;
 - (void)slideControllerBackwards:(UIViewController *)controller;
+
+- (void)cleanUpControllers;
 
 - (CGRect)frameForIndex:(int)index;
 
@@ -77,6 +80,7 @@
 {
     _firstVisibleIndex = 0;
     _viewControllers = [[NSMutableArray arrayWithCapacity:0] retain];
+    _controllersForRemoval = [[NSMutableArray arrayWithCapacity:0] retain];
     _maxVisibleControllers = 1;
     self.view.clipsToBounds = NO;
 }
@@ -130,7 +134,7 @@
 {
     controller.view.frame = self.topViewController.view.frame;
     [self.view addSubview:controller.view];
-    [self.view sendSubviewToBack:controller.view];
+    [self.view insertSubview:controller.view belowSubview:self.topViewController.view];
     [_viewControllers addObject:controller];
     controller.menuNavigationController = self;
     
@@ -141,12 +145,13 @@
 
 - (void)removeController:(UIViewController *)controller
 {
-    [controller.view removeFromSuperview];
+//    [controller.view removeFromSuperview];
+    [_controllersForRemoval addObject:controller];
     [_viewControllers removeObject:controller];
     
-    CGRect viewFrame = self.view.frame;
-    viewFrame.size.width -= self.minVisibleFrame.size.width;
-    self.view.frame = viewFrame;
+//    CGRect viewFrame = self.view.frame;
+//    viewFrame.size.width -= self.minVisibleFrame.size.width;
+//    self.view.frame = viewFrame;
 }
 
 #pragma mark - Navigation
@@ -162,14 +167,17 @@
 
 - (void)slideBackwards
 {
-    if (![[NSThread currentThread] isMainThread])
-    {
+    if (![[NSThread currentThread] isMainThread]) {
         [self performSelectorOnMainThread:@selector(slideBackwards) withObject:nil waitUntilDone:YES];
         return;
     }
     if (_firstVisibleIndex == [_viewControllers count]-1)
+    {
+        [self performSelector:@selector(slideAndCleanUp) withObject:nil afterDelay:0.3];
         return;
+    }
     
+    [self.parent slideContentControllerLeft];
     for (UIViewController *controller in _viewControllers)
     {
         [self slideControllerBackwards:controller];
@@ -189,7 +197,7 @@
                                                             controller.view.frame.size.height);
                      }
                      completion:^(BOOL finished) {
-
+                         [self cleanUpControllers];
                      }];
 }
 
@@ -208,7 +216,35 @@
                                                             controller.view.frame.size.height);
                      }
                      completion:^(BOOL finished) {
+                         [self cleanUpControllers];
                      }];
+}
+
+- (void)cleanUpControllers
+{
+    if (![[NSThread currentThread] isMainThread]) {
+        [self performSelectorOnMainThread:@selector(slideBackwards) withObject:nil waitUntilDone:YES];
+        return;
+    }
+    while ([_controllersForRemoval count] > 0)
+    {
+        UIViewController *controller = [_controllersForRemoval objectAtIndex:0];
+        [controller.view removeFromSuperview];
+        [_controllersForRemoval removeObjectAtIndex:0];
+    }
+}
+
+- (void)slideAndCleanUp
+{
+    if (![[NSThread currentThread] isMainThread]) {
+        [self performSelectorOnMainThread:@selector(slideBackwards) withObject:nil waitUntilDone:YES];
+        return;
+    }
+    if ([_controllersForRemoval count] > 0)
+    {
+        [self.parent slideContentControllerLeft];
+        [self performSelector:@selector(cleanUpControllers) withObject:nil afterDelay:0.3];
+    }
 }
 
 #pragma mark - Getters

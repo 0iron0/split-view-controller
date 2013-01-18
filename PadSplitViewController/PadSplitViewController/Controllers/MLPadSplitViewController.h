@@ -32,5 +32,6 @@
 - (void)presentPinViewController:(UIViewController *)pinController animated:(BOOL)animated;
 
 - (void)slideContentControllerRight;
+- (void)slideContentControllerLeft;
 
 @end

@@ -11,17 +11,12 @@
 #import "MLCourseMapItem.h"
 
 @interface MLPadRightViewController () {
-    UIView *_backgroundNavBar;
-    UIView *_backgroundView;
     UIView *_fadeView;
     UITapGestureRecognizer *_tapRecognizer;
 }
 
 @property (nonatomic, retain) UIViewController *viewController;
 
-- (void)configureBackgroundView;
-- (void)configureNavBar;
-- (void)configureBottomDivider;
 - (void)configureFadeView;
 - (void)configureTapRecognizer;
 
@@ -44,9 +39,6 @@
 {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
     {
-//        [self configureBackgroundView];
-        [self configureNavBar];
-        [self configureBottomDivider];
         [self configureFadeView];
         [self configureTapRecognizer];
     }
@@ -65,36 +57,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-}
-
-#pragma mark - Configuration
-
-- (void)configureBackgroundView
-{
-    _backgroundView = [[UIView alloc] initWithFrame:self.view.bounds];
-    _backgroundView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    _backgroundView.backgroundColor = [UIColor colorWithRed:227.0/255 green:227.0/255 blue:227.0/255 alpha:1.0];
-    [self.view addSubview:_backgroundView];
-    [_backgroundView release];
-}
-
-- (void)configureNavBar
-{
-    _backgroundNavBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
-    _backgroundNavBar.backgroundColor = [UIColor colorWithRed:235.0/255 green:235.0/255 blue:235.0/255 alpha:1.0];
-    _backgroundNavBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [self.view addSubview:_backgroundNavBar];
-    [_backgroundNavBar release];
-}
-
-- (void)configureBottomDivider
-{
-    UIView *bottomDivider = [[UIView alloc] initWithFrame:CGRectMake(0, 43, _backgroundNavBar.bounds.size.width, 1)];
-    bottomDivider.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    bottomDivider.backgroundColor = [UIColor colorWithRed:189.0/255 green:189.0/255 blue:189.0/255 alpha:1.0];
-    [_backgroundNavBar addSubview:bottomDivider];
-    [bottomDivider release];
+    
+    self.view.backgroundColor = [UIColor clearColor];
 }
 
 - (void)configureFadeView
@@ -164,24 +128,6 @@
                          [self.view.superview bringSubviewToFront:self.view];
                          [_viewController.view removeFromSuperview];
                          self.viewController = controller;
-                     }];
-}
-
-- (void)slideRight
-{
-    CGRect destinationFrame = _viewController.view.frame;
-    destinationFrame.origin.x += (destinationFrame.size.width/3);
-    [self addFade];
-    _fadeView.alpha = 0;
-
-    [UIView animateWithDuration:0.3
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         _viewController.view.frame = destinationFrame;
-                         _fadeView.alpha = 0.7;
-                     } completion:^(BOOL finished) {
-                         
                      }];
 }
 

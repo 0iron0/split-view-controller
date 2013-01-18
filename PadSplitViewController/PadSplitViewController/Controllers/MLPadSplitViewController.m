@@ -13,10 +13,16 @@
 #import "MLCourse.h"
 #import "MLCourseMapItem.h"
 
-@interface MLPadSplitViewController ()
+@interface MLPadSplitViewController () {
+    UIView *_backgroundNavBar;
+    UIView *_backgroundView;
+}
 
 - (void)configureLeftViewController;
 - (void)configureRightViewController;
+- (void)configureBackgroundView;
+- (void)configureNavBar;
+- (void)configureBottomDivider;
 
 - (CGRect)leftControllerQuarterViewRect;
 - (CGRect)leftControllerTwoQuarterViewRect;
@@ -47,8 +53,11 @@
 {
     [super viewDidLoad];
     
-    [self configureRightViewController];
+    [self configureBackgroundView];
+    [self configureNavBar];
+    [self configureBottomDivider];
     [self configureLeftViewController];
+    [self configureRightViewController];
 }
 
 - (void)viewDidLayoutSubviews
@@ -92,6 +101,33 @@
 //    [self addChildViewController:_rightViewController];
 }
 
+- (void)configureBackgroundView
+{
+    _backgroundView = [[UIView alloc] initWithFrame:self.view.bounds];
+    _backgroundView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    _backgroundView.backgroundColor = [UIColor colorWithRed:227.0/255 green:227.0/255 blue:227.0/255 alpha:1.0];
+    [self.view addSubview:_backgroundView];
+    [_backgroundView release];
+}
+
+- (void)configureNavBar
+{
+    _backgroundNavBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
+    _backgroundNavBar.backgroundColor = [UIColor colorWithRed:235.0/255 green:235.0/255 blue:235.0/255 alpha:1.0];
+    _backgroundNavBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [self.view addSubview:_backgroundNavBar];
+    [_backgroundNavBar release];
+}
+
+- (void)configureBottomDivider
+{
+    UIView *bottomDivider = [[UIView alloc] initWithFrame:CGRectMake(0, 43, _backgroundNavBar.bounds.size.width, 1)];
+    bottomDivider.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    bottomDivider.backgroundColor = [UIColor colorWithRed:189.0/255 green:189.0/255 blue:189.0/255 alpha:1.0];
+    [_backgroundNavBar addSubview:bottomDivider];
+    [bottomDivider release];
+}
+
 #pragma mark - Controller Presentation Methods
 
 - (void)presentContentControllerForItem:(MLCourseMapItem *)item animated:(BOOL)animated
@@ -111,8 +147,28 @@
 
 - (void)slideContentControllerRight
 {
-    if ([_rightViewController isDisplayingController] && ![_rightViewController isFaded])
-        [_rightViewController slideRight];
+    CGRect destinationFrame = _rightViewController.view.frame;
+    destinationFrame.origin.x += (_rightViewController.view.bounds.size.width/3);
+    
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         _rightViewController.view.frame = destinationFrame;
+                     } completion:nil];
+}
+
+- (void)slideContentControllerLeft
+{
+    CGRect destinationFrame = _rightViewController.view.frame;
+    destinationFrame.origin.x -= (_rightViewController.view.bounds.size.width/3);
+    
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         _rightViewController.view.frame = destinationFrame;
+                     } completion:nil];
 }
 
 #pragma mark - Frame Defines
