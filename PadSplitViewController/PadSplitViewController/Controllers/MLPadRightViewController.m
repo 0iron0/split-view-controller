@@ -13,17 +13,17 @@
 @interface MLPadRightViewController () {
     UIView *_fadeView;
     UITapGestureRecognizer *_tapRecognizer;
+    UIPanGestureRecognizer *_panRecognizer;
 }
 
 @property (nonatomic, retain) UIViewController *viewController;
 
 - (void)configureFadeView;
 - (void)configureTapRecognizer;
-
-- (void)addFade;
-- (void)removeFade;
+- (void)configurePanRecognizer;
 
 - (void)fadeTapped:(UITapGestureRecognizer *)recognizer;
+- (void)userPanned:(UIPanGestureRecognizer *)recognizer;
 
 - (void)animateControllerFromRight:(UIViewController *)controller animated:(BOOL)animated;
 
@@ -32,6 +32,7 @@
 @implementation MLPadRightViewController
 
 @synthesize viewController = _viewController;
+@synthesize parent;
 
 #pragma mark - Lifecycle
 
@@ -41,6 +42,7 @@
     {
         [self configureFadeView];
         [self configureTapRecognizer];
+        [self configurePanRecognizer];
     }
     return self;
 }
@@ -50,6 +52,7 @@
     [_viewController release];
     [_fadeView release];
     [_tapRecognizer release];
+    [_panRecognizer release];
     
     [super dealloc];
 }
@@ -72,23 +75,56 @@
 - (void)configureTapRecognizer
 {
     _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fadeTapped:)];
+    [_fadeView addGestureRecognizer:_tapRecognizer];
+    [_tapRecognizer release];
 }
+
+- (void)configurePanRecognizer
+{
+    _panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(userPanned:)];
+}
+
+#pragma mark - Fading
 
 - (void)addFade
 {
     _fadeView.frame = _viewController.view.bounds;
     [_viewController.view addSubview:_fadeView];
+    _fadeView.alpha = 0.7;
+}
+
+- (void)fadeFade
+{
+    _fadeView.alpha = 0;
 }
 
 - (void)removeFade
 {
     [_fadeView removeFromSuperview];
-    _fadeView.alpha = 0;
 }
+
+#pragma mark - Gesture Handling
 
 - (void)fadeTapped:(UITapGestureRecognizer *)recognizer
 {
-    
+    [self.parent slideContentControllerLeft];
+}
+
+- (void)userPanned:(UIPanGestureRecognizer *)recognizer
+{
+    if (recognizer.state == UIGestureRecognizerStateChanged)
+    {
+        if ([recognizer translationInView:recognizer.view].x >= 50)
+        {
+            if (![self isFaded])
+                [self.parent slideContentControllerRight];
+        }
+        else if ([recognizer translationInView:recognizer.view].x <= -50)
+        {
+            if ([self isFaded])
+                [self.parent slideContentControllerLeft];
+        }
+    }
 }
 
 #pragma mark - Content Presentation
@@ -99,6 +135,7 @@
     controller.view.frame = self.view.bounds;
     [self.view addSubview:controller.view];
     [self animateControllerFromRight:controller animated:YES];
+    [controller.view addGestureRecognizer:_panRecognizer];
 }
 
 - (void)presentWebControllerForURL:(NSURL *)url
@@ -124,7 +161,7 @@
                          controller.view.frame = destinationFrame;
                          
                      } completion:^(BOOL finished) {
-                         [self removeFade];
+//                         [self removeFade];
                          [self.view.superview bringSubviewToFront:self.view];
                          [_viewController.view removeFromSuperview];
                          self.viewController = controller;

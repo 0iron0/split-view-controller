@@ -8,23 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class MLCourseMapItem, MLPadSplitViewController, MLPadRightViewController;
-
-@protocol LeftViewControllerProtocol <NSObject>
-
-@required
-@property (nonatomic, readonly) int visibleControllers;
-@property (nonatomic, assign) int maxVisibleControllers;
-@property (nonatomic, assign) CGRect minVisibleFrame;
-@property (nonatomic, readonly) CGRect totalFrame;
-@property (nonatomic, readonly) CGRect currentlyVisibleFrame;
-@property (nonatomic, assign) MLPadSplitViewController *parent;
-
-@end
+@class MLCourseMapItem, MLPadSplitViewController, MLPadRightViewController, MLPadMenuNavigationController;
 
 @interface MLPadSplitViewController : UIViewController
 
-@property (nonatomic, retain) UIViewController <LeftViewControllerProtocol> *leftViewController;
+@property (nonatomic, retain) MLPadMenuNavigationController *leftViewController;
 @property (nonatomic, retain) MLPadRightViewController *rightViewController;
 
 - (void)presentContentControllerForItem:(MLCourseMapItem *)item animated:(BOOL)animated;

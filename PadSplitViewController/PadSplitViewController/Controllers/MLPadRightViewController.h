@@ -13,10 +13,14 @@
 
 @interface MLPadRightViewController : UIViewController
 
+@property (nonatomic, assign) MLPadSplitViewController *parent;
+
 - (void)presentContentControllerForItem:(MLCourseMapItem *)item animated:(BOOL)animated;
 - (void)presentWebControllerForURL:(NSURL *)url;
 
-- (void)slideRight;
+- (void)addFade;
+- (void)fadeFade;
+- (void)removeFade;
 
 - (BOOL)isDisplayingController;
 - (BOOL)isFaded;

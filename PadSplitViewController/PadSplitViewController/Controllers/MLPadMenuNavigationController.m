@@ -97,8 +97,8 @@
     }
     else
     {
-        [self slideBackwards];
         [self addController:viewController];
+        [self slideBackwards];
     }
 }
 
@@ -127,7 +127,19 @@
     //if iphone, just pushViewController
     
     [self.parent presentContentControllerForItem:item animated:animated];
-    [self performSelector:@selector(slideBackwards) withObject:nil afterDelay:0.2];
+    [self performSelector:@selector(doSomeSlids) withObject:nil afterDelay:0.2];
+}
+
+- (void)doSomeSlids
+{
+    if (![[NSThread currentThread] isMainThread])
+    {
+        [self performSelectorOnMainThread:@selector(doSomeSlids) withObject:nil waitUntilDone:YES];
+        return;
+    }
+    if (self.visibleControllers > 1)
+        [self.parent slideContentControllerLeft];
+    [self slideBackwards];
 }
 
 - (void)addController:(UIViewController <MenuViewController> *)controller
@@ -145,13 +157,8 @@
 
 - (void)removeController:(UIViewController *)controller
 {
-//    [controller.view removeFromSuperview];
     [_controllersForRemoval addObject:controller];
     [_viewControllers removeObject:controller];
-    
-//    CGRect viewFrame = self.view.frame;
-//    viewFrame.size.width -= self.minVisibleFrame.size.width;
-//    self.view.frame = viewFrame;
 }
 
 #pragma mark - Navigation
@@ -177,7 +184,6 @@
         return;
     }
     
-    [self.parent slideContentControllerLeft];
     for (UIViewController *controller in _viewControllers)
     {
         [self slideControllerBackwards:controller];
@@ -223,7 +229,7 @@
 - (void)cleanUpControllers
 {
     if (![[NSThread currentThread] isMainThread]) {
-        [self performSelectorOnMainThread:@selector(slideBackwards) withObject:nil waitUntilDone:YES];
+        [self performSelectorOnMainThread:@selector(cleanUpControllers) withObject:nil waitUntilDone:YES];
         return;
     }
     while ([_controllersForRemoval count] > 0)
@@ -237,12 +243,13 @@
 - (void)slideAndCleanUp
 {
     if (![[NSThread currentThread] isMainThread]) {
-        [self performSelectorOnMainThread:@selector(slideBackwards) withObject:nil waitUntilDone:YES];
+        [self performSelectorOnMainThread:@selector(slideAndCleanUp) withObject:nil waitUntilDone:YES];
         return;
     }
     if ([_controllersForRemoval count] > 0)
     {
-        [self.parent slideContentControllerLeft];
+        if (self.visibleControllers > 1)
+            [self.parent slideContentControllerLeft];
         [self performSelector:@selector(cleanUpControllers) withObject:nil afterDelay:0.3];
     }
 }
@@ -256,7 +263,7 @@
 }
 
 - (UIViewController *)visibleViewController {
-    return [_viewControllers objectAtIndex:_firstVisibleIndex]; //IMPLEMENT THIS
+    return [_viewControllers objectAtIndex:_firstVisibleIndex];
 }
 
 - (NSMutableArray *)viewControllers {
@@ -294,6 +301,10 @@
                       self.minVisibleFrame.origin.y,
                       self.minVisibleFrame.size.width * self.visibleControllers,
                       self.minVisibleFrame.size.height);
+}
+
+- (BOOL)hasHiddenController {
+    return (_firstVisibleIndex != [_viewControllers count]-1);
 }
 
 @end

@@ -16,7 +16,7 @@
 
 @end
 
-@interface MLPadMenuNavigationController : UIViewController <LeftViewControllerProtocol>
+@interface MLPadMenuNavigationController : UIViewController
 
 @property (nonatomic, readonly) UIViewController <MenuViewController> *topViewController;
 @property (nonatomic, readonly) UIViewController <MenuViewController> *visibleViewController;
@@ -39,5 +39,7 @@
 
 - (CGRect)totalFrame;
 - (CGRect)currentlyVisibleFrame;
+
+- (BOOL)hasHiddenController;
 
 @end

@@ -95,10 +95,8 @@
 - (void)configureRightViewController
 {
     _rightViewController = [[MLPadRightViewController alloc] initWithNibName:nil bundle:nil];
-//    _rightViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-//    _rightViewController.view.backgroundColor = [UIColor colorWithRed:235.0/255 green:235.0/255 blue:235.0/255 alpha:1.0];
+    _rightViewController.parent = self;
     [self.view addSubview:_rightViewController.view];
-//    [self addChildViewController:_rightViewController];
 }
 
 - (void)configureBackgroundView
@@ -147,6 +145,9 @@
 
 - (void)slideContentControllerRight
 {
+    if (![_leftViewController hasHiddenController])
+          return;
+          
     CGRect destinationFrame = _rightViewController.view.frame;
     destinationFrame.origin.x += (_rightViewController.view.bounds.size.width/3);
     
@@ -155,6 +156,7 @@
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          _rightViewController.view.frame = destinationFrame;
+                         [_rightViewController addFade];
                      } completion:nil];
 }
 
@@ -168,7 +170,10 @@
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          _rightViewController.view.frame = destinationFrame;
-                     } completion:nil];
+                         [_rightViewController fadeFade];
+                     } completion:^(BOOL finished) {
+                         [_rightViewController removeFade];
+                     }];
 }
 
 #pragma mark - Frame Defines
