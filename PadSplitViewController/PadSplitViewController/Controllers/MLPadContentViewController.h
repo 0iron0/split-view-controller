@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class MLPadRightViewController, MLPadMenuNavigationBar;
+
 @interface MLPadContentViewController : UIViewController
+
+@property (nonatomic, assign) MLPadRightViewController *parent;
+@property (nonatomic, retain) MLPadMenuNavigationBar *navigationBar;
+
+- (BOOL)shouldShowNavigationBar;
 
 @end

@@ -796,10 +796,12 @@
 		345CE2EE1694DD89009BA0C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PadSplitViewController/PadSplitViewController-Prefix.pch";
 				INFOPLIST_FILE = "PadSplitViewController/PadSplitViewController-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -807,10 +809,12 @@
 		345CE2EF1694DD89009BA0C9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PadSplitViewController/PadSplitViewController-Prefix.pch";
 				INFOPLIST_FILE = "PadSplitViewController/PadSplitViewController-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

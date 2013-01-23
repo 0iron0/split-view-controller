@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "MLPadSplitViewController.h"
+#import "MLPadMenuNavigationBar.h"
 
 @class MLCourseMapItem;
 
-@interface MLPadRightViewController : UIViewController
+@interface MLPadRightViewController : UIViewController <MenuNavigationBarParent>
 
 @property (nonatomic, assign) MLPadSplitViewController *parent;
 

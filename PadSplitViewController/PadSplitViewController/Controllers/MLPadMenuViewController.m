@@ -13,6 +13,8 @@
 #import "MLMenuSectionHeaderView.h"
 
 #define MENU_NAVIGATION_BAR_HEIGHT 44
+#define PAD_MENU_NAV_BAR_COLOR [UIColor colorWithRed:235.0/255 green:235.0/255 blue:235.0/255 alpha:1.0]
+
 #define MENU_CONTROLLER_CELL_HEIGHT 68
 #define MENU_RIGHT_DIVIDER_WIDTH 1
 #define MENU_RIGHT_DIVIDER_COLOR [UIColor colorWithRed:217.0/255 green:217.0/255 blue:217.0/255 alpha:1.0]
@@ -86,6 +88,7 @@
     _navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _navigationBar.frame = [self navigationBarFrame];
     _navigationBar.parent = self;
+    _navigationBar.backgroundColor = PAD_MENU_NAV_BAR_COLOR;
     [self.view addSubview:_navigationBar];
 }
 

@@ -25,11 +25,12 @@
 - (void)configureBottomDivider;
 
 - (CGRect)leftControllerQuarterViewRect;
-- (CGRect)leftControllerTwoQuarterViewRect;
-- (CGRect)leftControllerThreeQuarterViewRect;
-- (CGRect)rightControllerFrame;
+- (CGRect)rightControllerBaseFrame;
 
 - (CGSize)padViewSize;
+- (BOOL)leftControllerShouldBeVisible;
+- (int)maxVisibleLeftControllers;
+- (BOOL)isLandscape;
 
 @end
 
@@ -60,12 +61,19 @@
     [self configureRightViewController];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [self.view setNeedsLayout];
+}
+
 - (void)viewDidLayoutSubviews
 {
     _leftViewController.minVisibleFrame = [self leftControllerQuarterViewRect];
-    _leftViewController.maxVisibleControllers = 2;
+    _leftViewController.maxVisibleControllers = [self maxVisibleLeftControllers];
     _leftViewController.view.frame = _leftViewController.totalFrame;
-    _rightViewController.view.frame = [self rightControllerFrame];    
+    _rightViewController.view.frame = [self rightControllerBaseFrame];
 }
 
 - (void)didReceiveMemoryWarning
@@ -131,6 +139,9 @@
 - (void)presentContentControllerForItem:(MLCourseMapItem *)item animated:(BOOL)animated
 {
     [_rightViewController presentContentControllerForItem:item animated:animated];
+    
+    if (![_rightViewController isDisplayingController])
+        [self slideContentControllerLeft];
 }
 
 - (void)presentPopupViewController:(UIViewController *)viewController animated:(BOOL)animated
@@ -143,11 +154,13 @@
     
 }
 
+#pragma mark - Sliding
+
 - (void)slideContentControllerRight
 {
-    if (![_leftViewController hasHiddenController])
-          return;
-          
+//    if (![_leftViewController hasHiddenController] && UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation))
+//          return;
+    
     CGRect destinationFrame = _rightViewController.view.frame;
     destinationFrame.origin.x += (_rightViewController.view.bounds.size.width/3);
     
@@ -162,14 +175,14 @@
 
 - (void)slideContentControllerLeft
 {
-    CGRect destinationFrame = _rightViewController.view.frame;
-    destinationFrame.origin.x -= (_rightViewController.view.bounds.size.width/3);
+    if (![_rightViewController isFaded] && [_rightViewController isDisplayingController])
+        return;
     
     [UIView animateWithDuration:0.3
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         _rightViewController.view.frame = destinationFrame;
+                         _rightViewController.view.frame = [self rightControllerBaseFrame];
                          [_rightViewController fadeFade];
                      } completion:^(BOOL finished) {
                          [_rightViewController removeFade];
@@ -185,22 +198,12 @@
                       self.view.bounds.size.height);
 }
 
-- (CGRect)leftControllerTwoQuarterViewRect {
-    return CGRectMake(self.view.bounds.origin.x,
-                      self.view.bounds.origin.y,
-                      floorf([self padViewSize].width / 2),
-                      self.view.bounds.size.height);
-}
-
-- (CGRect)leftControllerThreeQuarterViewRect {
-    return CGRectMake(self.view.bounds.origin.x,
-                      self.view.bounds.origin.y,
-                      floorf([self padViewSize].width / 4) * 3,
-                      self.view.bounds.size.height);
-}
-
-- (CGRect)rightControllerFrame {
-    return CGRectMake(CGRectGetMaxX(_leftViewController.minVisibleFrame) * _leftViewController.visibleControllers,
+- (CGRect)rightControllerBaseFrame {
+    float xOrigin = 0;
+    if ([self isLandscape])
+        xOrigin = _leftViewController.minVisibleFrame.size.width;
+    
+    return CGRectMake(xOrigin,
                       _leftViewController.minVisibleFrame.origin.y,
                       floorf([self padViewSize].width / 4) * 3,
                       _leftViewController.minVisibleFrame.size.height);
@@ -211,6 +214,24 @@
 - (CGSize)padViewSize {
     return CGSizeMake(fmaxf(self.view.bounds.size.width, self.view.bounds.size.height),
                       fminf(self.view.bounds.size.width, self.view.bounds.size.height));
+}
+
+- (BOOL)leftControllerShouldBeVisible {
+    if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation))
+        return YES;
+    else if (![_rightViewController isDisplayingController] || [_rightViewController isFaded])
+        return YES;
+    return NO;
+}
+
+- (int)maxVisibleLeftControllers {
+    if ([self isLandscape])
+        return 3;
+    return 2;
+}
+
+- (BOOL)isLandscape {
+    return UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation);
 }
 
 #pragma mark - Temporary Methods

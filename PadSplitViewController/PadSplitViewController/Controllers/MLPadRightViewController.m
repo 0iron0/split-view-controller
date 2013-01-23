@@ -90,6 +90,7 @@
 {
     _fadeView.frame = _viewController.view.bounds;
     [_viewController.view addSubview:_fadeView];
+    [_viewController.view bringSubviewToFront:_fadeView];
     _fadeView.alpha = 0.7;
 }
 
@@ -127,11 +128,22 @@
     }
 }
 
+#pragma mark - Button Handling
+
+- (void)menuButtonPressed
+{
+    if ([self isFaded])
+        [self.parent slideContentControllerLeft];
+    else
+        [self.parent slideContentControllerRight];
+}
+
 #pragma mark - Content Presentation
 
 - (void)presentContentControllerForItem:(MLCourseMapItem *)item animated:(BOOL)animated
 {
-    UIViewController *controller = [[[MLPadContentViewController alloc] init] autorelease];
+    MLPadContentViewController *controller = [[[MLPadContentViewController alloc] init] autorelease];
+    controller.parent = self;
     controller.view.frame = self.view.bounds;
     [self.view addSubview:controller.view];
     [self animateControllerFromRight:controller animated:YES];
@@ -161,7 +173,6 @@
                          controller.view.frame = destinationFrame;
                          
                      } completion:^(BOOL finished) {
-//                         [self removeFade];
                          [self.view.superview bringSubviewToFront:self.view];
                          [_viewController.view removeFromSuperview];
                          self.viewController = controller;

@@ -10,8 +10,9 @@
 
 @protocol MenuNavigationBarParent <NSObject>
 
-@required
+@optional
 - (void)backButtonPressed;
+- (void)menuButtonPressed;
 
 @end
 
@@ -21,5 +22,6 @@
 @property (nonatomic, retain) NSString *title;
 
 - (void)setBackButtonEnabled:(BOOL)enabled animated:(BOOL)animated;
+- (void)setMenuButtonEnabled:(BOOL)enabled animated:(BOOL)animated;
 
 @end

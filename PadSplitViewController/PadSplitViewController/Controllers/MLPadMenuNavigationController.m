@@ -248,8 +248,7 @@
     }
     if ([_controllersForRemoval count] > 0)
     {
-        if (self.visibleControllers > 1)
-            [self.parent slideContentControllerLeft];
+        [self.parent slideContentControllerLeft];
         [self performSelector:@selector(cleanUpControllers) withObject:nil afterDelay:0.3];
     }
 }

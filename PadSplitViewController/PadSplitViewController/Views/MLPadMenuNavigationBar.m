@@ -8,7 +8,7 @@
 
 #import "MLPadMenuNavigationBar.h"
 
-#define MENU_NAV_BAR_BACKGROUND_COLOR [UIColor colorWithRed:235.0/255 green:235.0/255 blue:235.0/255 alpha:1.0]
+#define MENU_NAV_BAR_BACKGROUND_COLOR [UIColor colorWithRed:242.0/255 green:242.0/255 blue:242.0/255 alpha:1.0]
 
 #define MENU_NAV_BAR_TITLE_FONT [UIFont fontWithName:@"Lato-Bold" size:17.0]
 #define MENU_NAV_BAR_TITLE_COLOR [UIColor colorWithRed:138.0/255 green:138.0/255 blue:138.0/255 alpha:1.0]
@@ -19,19 +19,19 @@
 
 @interface MLPadMenuNavigationBar () {
     UILabel *_titleLabel;
-    UIButton *_leftBarButton;
-    UIButton *_rightBarButton;
+    UIButton *_backButton;
+    UIButton *_menuButton;
     UIView *_bottomDivider;
 }
 
 - (void)configureSelf;
 - (void)configureTitleLabel;
-- (void)configureLeftBarButton;
-- (void)configureRightBarButton;
+- (void)configureBackButton;
+- (void)configureMenuButton;
 - (void)configureBottomDivider;
 
-- (CGRect)leftBarButtonFrame;
-- (CGRect)rightBarButtonFrame;
+- (CGRect)backButtonFrame;
+- (CGRect)menuButtonFrame;
 - (CGRect)titleLabelFrame;
 - (CGRect)bottomDividerFrame;
 
@@ -50,8 +50,8 @@
     {
         [self configureSelf];
         [self configureTitleLabel];
-        [self configureLeftBarButton];
-        [self configureRightBarButton];
+        [self configureBackButton];
+        [self configureMenuButton];
         [self configureBottomDivider];
     }
     return self;
@@ -60,8 +60,8 @@
 - (void)dealloc
 {
     [_title release];
-    [_leftBarButton release];
-    [_rightBarButton release];
+    [_backButton release];
+    [_menuButton release];
     [_titleLabel release];
     [_bottomDivider release];
     
@@ -72,8 +72,8 @@
 {
     [super layoutSubviews];
     
-    _leftBarButton.frame = [self leftBarButtonFrame];
-    _rightBarButton.frame = [self rightBarButtonFrame];
+    _backButton.frame = [self backButtonFrame];
+    _menuButton.frame = [self menuButtonFrame];
     _titleLabel.frame = [self titleLabelFrame];
     _bottomDivider.frame = [self bottomDividerFrame];
 }
@@ -99,20 +99,22 @@
     self.title = @"";
 }
 
-- (void)configureLeftBarButton
+- (void)configureBackButton
 {
-    _leftBarButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-    _leftBarButton.frame = CGRectZero;
-    [_leftBarButton setImage:[UIImage imageNamed:@"MLBackArrow.png"] forState:UIControlStateNormal];
-    _leftBarButton.alpha = 0;
-    [_leftBarButton addTarget:self.parent action:@selector(backButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    _backButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+    _backButton.frame = CGRectZero;
+    [_backButton setImage:[UIImage imageNamed:@"MLBackArrow.png"] forState:UIControlStateNormal];
+    _backButton.alpha = 0;
+    [_backButton addTarget:self.parent action:@selector(backButtonPressed) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)configureRightBarButton
+- (void)configureMenuButton
 {
-    _rightBarButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-    _rightBarButton.frame = CGRectZero;
-    [self addSubview:_rightBarButton];
+    _menuButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+    _menuButton.frame = CGRectZero;
+    [_menuButton setImage:[UIImage imageNamed:@"MLMenuIcon.png"] forState:UIControlStateNormal];
+    _menuButton.alpha = 0;
+    [_menuButton addTarget:self.parent action:@selector(menuButtonPressed) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)configureBottomDivider
@@ -128,20 +130,41 @@
 - (void)setBackButtonEnabled:(BOOL)enabled animated:(BOOL)animated
 {
     if (enabled)
-        [self addSubview:_leftBarButton];
+        [self addSubview:_backButton];
 
     [UIView animateWithDuration:(animated ? 0.3 : 0)
                           delay:0
                         options:UIViewAnimationCurveEaseInOut
                      animations:^(void) {
                          if (enabled) 
-                             _leftBarButton.alpha = 1;
+                             _backButton.alpha = 1;
                          else 
-                             _leftBarButton.alpha = 0;
+                             _backButton.alpha = 0;
                      }
                      completion:^(BOOL finished) {
                          if (!enabled)
-                             [_leftBarButton removeFromSuperview];
+                             [_backButton removeFromSuperview];
+                         
+                     }];
+}
+
+- (void)setMenuButtonEnabled:(BOOL)enabled animated:(BOOL)animated
+{
+    if (enabled)
+        [self addSubview:_menuButton];
+    
+    [UIView animateWithDuration:(animated ? 0.3 : 0)
+                          delay:0
+                        options:UIViewAnimationCurveEaseInOut
+                     animations:^(void) {
+                         if (enabled)
+                             _menuButton.alpha = 1;
+                         else
+                             _menuButton.alpha = 0;
+                     }
+                     completion:^(BOOL finished) {
+                         if (!enabled)
+                             [_menuButton removeFromSuperview];
                          
                      }];
 }
@@ -158,24 +181,24 @@
 
 #pragma mark - Frames
 
-- (CGRect)leftBarButtonFrame {
+- (CGRect)backButtonFrame {
     return CGRectMake(MENU_NAV_BAR_TITLE_BUTTON_BUFFER,
-                      CGRectGetMidY(self.bounds) - _leftBarButton.imageView.image.size.height/2,
-                      _leftBarButton.imageView.image.size.width,
-                      _leftBarButton.imageView.image.size.height);
+                      CGRectGetMidY(self.bounds) - _backButton.imageView.image.size.height/2,
+                      _backButton.imageView.image.size.width,
+                      _backButton.imageView.image.size.height);
 }
 
-- (CGRect)rightBarButtonFrame {
-    return CGRectMake(0,
-                      0,
-                      0,
-                      0);
+- (CGRect)menuButtonFrame {
+    return CGRectMake(MENU_NAV_BAR_TITLE_BUTTON_BUFFER*2,
+                      CGRectGetMidY(self.bounds) - _backButton.imageView.image.size.height/2,
+                      _backButton.imageView.image.size.width,
+                      _backButton.imageView.image.size.height);
 }
 
 - (CGRect)titleLabelFrame {
-    return CGRectMake(_leftBarButton.bounds.size.width + MENU_NAV_BAR_TITLE_BUTTON_BUFFER*2,
+    return CGRectMake(_backButton.bounds.size.width + MENU_NAV_BAR_TITLE_BUTTON_BUFFER*2,
                       0,
-                      self.bounds.size.width - _leftBarButton.bounds.size.width*2 - MENU_NAV_BAR_TITLE_BUTTON_BUFFER*4,
+                      self.bounds.size.width - _backButton.bounds.size.width*2 - MENU_NAV_BAR_TITLE_BUTTON_BUFFER*4,
                       self.bounds.size.height);
 }
 
