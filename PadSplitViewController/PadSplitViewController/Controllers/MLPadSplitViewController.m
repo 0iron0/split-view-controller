@@ -25,11 +25,13 @@
 - (void)configureBottomDivider;
 
 - (CGRect)leftControllerQuarterViewRect;
+- (CGRect)rightControllerRelativeFrame;
 - (CGRect)rightControllerBaseFrame;
 
 - (CGSize)padViewSize;
 - (BOOL)leftControllerShouldBeVisible;
 - (int)maxVisibleLeftControllers;
+- (int)minVisibleLeftControllers;
 - (BOOL)isLandscape;
 
 @end
@@ -72,8 +74,9 @@
 {
     _leftViewController.minVisibleFrame = [self leftControllerQuarterViewRect];
     _leftViewController.maxVisibleControllers = [self maxVisibleLeftControllers];
+    _leftViewController.minVisibleControllers = [self minVisibleLeftControllers];
     _leftViewController.view.frame = _leftViewController.totalFrame;
-    _rightViewController.view.frame = [self rightControllerBaseFrame];
+    _rightViewController.view.frame = [self rightControllerRelativeFrame];
 }
 
 - (void)didReceiveMemoryWarning
@@ -104,7 +107,9 @@
 {
     _rightViewController = [[MLPadRightViewController alloc] initWithNibName:nil bundle:nil];
     _rightViewController.parent = self;
+    _rightViewController.view.frame = [self rightControllerBaseFrame];
     [self.view addSubview:_rightViewController.view];
+    [self.view sendSubviewToBack:_rightViewController.view];
 }
 
 - (void)configureBackgroundView
@@ -138,10 +143,12 @@
 
 - (void)presentContentControllerForItem:(MLCourseMapItem *)item animated:(BOOL)animated
 {
-    [_rightViewController presentContentControllerForItem:item animated:animated];
-    
     if (![_rightViewController isDisplayingController])
-        [self slideContentControllerLeft];
+        _leftViewController.maxVisibleControllers = [self maxVisibleLeftControllers];
+    
+    [_rightViewController presentContentControllerForItem:item animated:animated];
+    [self slideContentControllerToBase];
+    [self.view bringSubviewToFront:_rightViewController.view];
 }
 
 - (void)presentPopupViewController:(UIViewController *)viewController animated:(BOOL)animated
@@ -156,11 +163,21 @@
 
 #pragma mark - Sliding
 
+- (void)slideContentControllerToBase
+{
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         _rightViewController.view.frame = [self rightControllerBaseFrame];
+                         [_rightViewController fadeFade];
+                     } completion:^(BOOL finished) {
+                         [_rightViewController removeFade];
+                     }];
+}
+
 - (void)slideContentControllerRight
 {
-//    if (![_leftViewController hasHiddenController] && UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation))
-//          return;
-    
     CGRect destinationFrame = _rightViewController.view.frame;
     destinationFrame.origin.x += (_rightViewController.view.bounds.size.width/3);
     
@@ -173,20 +190,18 @@
                      } completion:nil];
 }
 
-- (void)slideContentControllerLeft
+- (void)slideContentControllerToMax
 {
-    if (![_rightViewController isFaded] && [_rightViewController isDisplayingController])
+    if (CGRectEqualToRect(_rightViewController.view.frame, [self rightControllerRelativeFrame]))
         return;
     
     [UIView animateWithDuration:0.3
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         _rightViewController.view.frame = [self rightControllerBaseFrame];
-                         [_rightViewController fadeFade];
-                     } completion:^(BOOL finished) {
-                         [_rightViewController removeFade];
-                     }];
+                         _rightViewController.view.frame = [self rightControllerRelativeFrame];
+                         [_rightViewController addFade];
+                     } completion:nil];
 }
 
 #pragma mark - Frame Defines
@@ -198,12 +213,22 @@
                       self.view.bounds.size.height);
 }
 
+- (CGRect)rightControllerRelativeFrame {
+    return CGRectMake(_leftViewController.minVisibleFrame.size.width * _leftViewController.visibleControllers,
+                      _leftViewController.minVisibleFrame.origin.y,
+                      floorf([self padViewSize].width / 4) * 3,
+                      _leftViewController.minVisibleFrame.size.height);
+}
+
 - (CGRect)rightControllerBaseFrame {
-    float xOrigin = 0;
-    if ([self isLandscape])
-        xOrigin = _leftViewController.minVisibleFrame.size.width;
-    
-    return CGRectMake(xOrigin,
+    return CGRectMake(_leftViewController.minVisibleFrame.size.width * [self minVisibleLeftControllers],
+                      _leftViewController.minVisibleFrame.origin.y,
+                      floorf([self padViewSize].width / 4) * 3,
+                      _leftViewController.minVisibleFrame.size.height);
+}
+
+- (CGRect)rightControllerMaxFrame {
+    return CGRectMake(_leftViewController.minVisibleFrame.size.width * [self maxVisibleLeftControllers],
                       _leftViewController.minVisibleFrame.origin.y,
                       floorf([self padViewSize].width / 4) * 3,
                       _leftViewController.minVisibleFrame.size.height);
@@ -225,9 +250,15 @@
 }
 
 - (int)maxVisibleLeftControllers {
-    if ([self isLandscape])
+    if ([self isLandscape] || ![_rightViewController isDisplayingController])
         return 3;
     return 2;
+}
+
+- (int)minVisibleLeftControllers {
+    if ([self isLandscape])
+        return 1;
+    return 0;
 }
 
 - (BOOL)isLandscape {

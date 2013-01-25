@@ -108,7 +108,7 @@
 
 - (void)fadeTapped:(UITapGestureRecognizer *)recognizer
 {
-    [self.parent slideContentControllerLeft];
+    [self.parent slideContentControllerToBase];
 }
 
 - (void)userPanned:(UIPanGestureRecognizer *)recognizer
@@ -118,12 +118,12 @@
         if ([recognizer translationInView:recognizer.view].x >= 50)
         {
             if (![self isFaded])
-                [self.parent slideContentControllerRight];
+                [self.parent slideContentControllerToMax];
         }
         else if ([recognizer translationInView:recognizer.view].x <= -50)
         {
             if ([self isFaded])
-                [self.parent slideContentControllerLeft];
+                [self.parent slideContentControllerToBase];
         }
     }
 }
@@ -133,9 +133,9 @@
 - (void)menuButtonPressed
 {
     if ([self isFaded])
-        [self.parent slideContentControllerLeft];
+        [self.parent slideContentControllerToBase];
     else
-        [self.parent slideContentControllerRight];
+        [self.parent slideContentControllerToMax];
 }
 
 #pragma mark - Content Presentation

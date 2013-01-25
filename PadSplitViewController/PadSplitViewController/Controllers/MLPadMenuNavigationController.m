@@ -14,9 +14,11 @@
     NSMutableArray *_viewControllers;
     int _firstVisibleIndex;
     NSMutableArray *_controllersForRemoval;
+    UIScrollView *_scrollView;
 }
 
 - (void)configureSelf;
+- (void)configureScrollView;
 
 - (void)addController:(UIViewController <MenuViewController> *)controller;
 - (void)removeController:(UIViewController *)controller;
@@ -35,6 +37,7 @@
 @synthesize minVisibleFrame = _minVisibleFrame;
 @synthesize visibleControllers;
 @synthesize maxVisibleControllers = _maxVisibleControllers;
+@synthesize minVisibleControllers = _minVisibleControllers;
 @synthesize parent;
 
 - (id)initWithRootViewController:(UIViewController <MenuViewController> *)rootController
@@ -42,6 +45,7 @@
     if (self = [super initWithNibName:nil bundle:nil])
     {
         [self configureSelf];
+        [self configureScrollView];
         [self addController:rootController];
     }
     return self;
@@ -50,15 +54,9 @@
 - (void)dealloc
 {
     [_viewControllers release];
+    [_scrollView release];
     
     [super dealloc];
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
-    self.view.backgroundColor = [UIColor clearColor];
 }
 
 - (void)viewDidLayoutSubviews
@@ -67,11 +65,6 @@
     {
         controller.view.frame = [self frameForIndex:[_viewControllers indexOfObject:controller]];
     }
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
 }
 
 #pragma mark - View Configuration
@@ -83,6 +76,15 @@
     _controllersForRemoval = [[NSMutableArray arrayWithCapacity:0] retain];
     _maxVisibleControllers = 1;
     self.view.clipsToBounds = NO;
+    self.view.backgroundColor = [UIColor clearColor];
+}
+
+- (void)configureScrollView
+{
+    _scrollView = [UIScrollView new];
+    _scrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    _scrollView.frame = self.view.bounds;
+    _scrollView.pagingEnabled = YES;
 }
 
 #pragma mark - Pushing and Popping
@@ -99,6 +101,7 @@
     {
         [self addController:viewController];
         [self slideBackwards];
+        _firstVisibleIndex++;
     }
 }
 
@@ -127,19 +130,8 @@
     //if iphone, just pushViewController
     
     [self.parent presentContentControllerForItem:item animated:animated];
-    [self performSelector:@selector(doSomeSlids) withObject:nil afterDelay:0.2];
-}
-
-- (void)doSomeSlids
-{
-    if (![[NSThread currentThread] isMainThread])
-    {
-        [self performSelectorOnMainThread:@selector(doSomeSlids) withObject:nil waitUntilDone:YES];
-        return;
-    }
-    if (self.visibleControllers > 1)
-        [self.parent slideContentControllerLeft];
     [self slideBackwards];
+    _firstVisibleIndex = [_viewControllers count]-1;
 }
 
 - (void)addController:(UIViewController <MenuViewController> *)controller
@@ -161,7 +153,7 @@
     [_viewControllers removeObject:controller];
 }
 
-#pragma mark - Navigation
+#pragma mark - Sliding and Cleaning Up
 
 - (void)slideForwards
 {
@@ -188,7 +180,7 @@
     {
         [self slideControllerBackwards:controller];
     }
-    _firstVisibleIndex++;
+//    _firstVisibleIndex++;
 }
 
 - (void)slideControllerForwards:(UIViewController *)controller
@@ -248,7 +240,6 @@
     }
     if ([_controllersForRemoval count] > 0)
     {
-        [self.parent slideContentControllerLeft];
         [self performSelector:@selector(cleanUpControllers) withObject:nil afterDelay:0.3];
     }
 }
@@ -269,14 +260,14 @@
     return _viewControllers;
 }
 
+- (int)visibleControllers {
+    return fminf([_viewControllers count] - _firstVisibleIndex, self.maxVisibleControllers);
+}
+
 #pragma mark - Setters
 
 - (void)setMinVisibleFrame:(CGRect)minVisibleFrame {
     _minVisibleFrame = minVisibleFrame;
-}
-
-- (int)visibleControllers {
-    return fminf([_viewControllers count] - _firstVisibleIndex, self.maxVisibleControllers);
 }
 
 #pragma mark - Utility

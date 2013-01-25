@@ -24,6 +24,7 @@
 @property (nonatomic, assign) CGRect minVisibleFrame;
 @property (nonatomic, readonly) int visibleControllers;
 @property (nonatomic, assign) int maxVisibleControllers;
+@property (nonatomic, assign) int minVisibleControllers;
 @property (nonatomic, assign) MLPadSplitViewController *parent;
 
 - (id)initWithRootViewController:(UIViewController <MenuViewController> *)rootController;

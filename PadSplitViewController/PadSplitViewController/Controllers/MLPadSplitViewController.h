@@ -19,7 +19,8 @@
 - (void)presentPopupViewController:(UIViewController *)viewController animated:(BOOL)animated;
 - (void)presentPinViewController:(UIViewController *)pinController animated:(BOOL)animated;
 
+- (void)slideContentControllerToBase;
 - (void)slideContentControllerRight;
-- (void)slideContentControllerLeft;
+- (void)slideContentControllerToMax;
 
 @end
