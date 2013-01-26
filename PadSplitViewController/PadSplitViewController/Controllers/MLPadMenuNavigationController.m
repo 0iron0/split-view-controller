@@ -12,7 +12,7 @@
 
 @interface MLPadMenuNavigationController () {
     NSMutableArray *_viewControllers;
-    int _firstVisibleIndex;
+//    int _firstVisibleIndex;
     NSMutableArray *_controllersForRemoval;
     UIScrollView *_scrollView;
 }
@@ -25,10 +25,12 @@
 
 - (void)slideControllerForwards:(UIViewController *)controller;
 - (void)slideControllerBackwards:(UIViewController *)controller;
+- (void)animateControllersGivenFirstVisibleIndex:(int)index;
 
 - (void)cleanUpControllers;
 
 - (CGRect)frameForIndex:(int)index;
+- (CGRect)frameForIndex:(int)index givenTargetFirstVisibleIndex:(int)firstVisible;
 
 @end
 
@@ -38,7 +40,9 @@
 @synthesize visibleControllers;
 @synthesize maxVisibleControllers = _maxVisibleControllers;
 @synthesize minVisibleControllers = _minVisibleControllers;
+@synthesize firstVisibleIndex;
 @synthesize parent;
+
 
 - (id)initWithRootViewController:(UIViewController <MenuViewController> *)rootController
 {
@@ -71,7 +75,6 @@
 
 - (void)configureSelf
 {
-    _firstVisibleIndex = 0;
     _viewControllers = [[NSMutableArray arrayWithCapacity:0] retain];
     _controllersForRemoval = [[NSMutableArray arrayWithCapacity:0] retain];
     _maxVisibleControllers = 1;
@@ -94,14 +97,13 @@
     if (self.visibleControllers < self.maxVisibleControllers)
     {
         [self addController:viewController];
-        [self slideControllerForwards:viewController];
+        [self animateControllersGivenFirstVisibleIndex:self.firstVisibleIndex];
         [self.parent slideContentControllerRight];
     }
     else
     {
         [self addController:viewController];
-        [self slideBackwards];
-        _firstVisibleIndex++;
+        [self animateControllersGivenFirstVisibleIndex:self.firstVisibleIndex+1];
     }
 }
 
@@ -130,8 +132,7 @@
     //if iphone, just pushViewController
     
     [self.parent presentContentControllerForItem:item animated:animated];
-    [self slideBackwards];
-    _firstVisibleIndex = [_viewControllers count]-1;
+    [self animateControllersGivenFirstVisibleIndex:[_viewControllers count]-1];
 }
 
 - (void)addController:(UIViewController <MenuViewController> *)controller
@@ -157,64 +158,31 @@
 
 - (void)slideForwards
 {
-    for (UIViewController *controller in _viewControllers)
-    {
-        [self slideControllerForwards:controller];
-    }
-    _firstVisibleIndex--;
+    [self animateControllersGivenFirstVisibleIndex:self.firstVisibleIndex+1];
 }
 
 - (void)slideBackwards
 {
-    if (![[NSThread currentThread] isMainThread]) {
-        [self performSelectorOnMainThread:@selector(slideBackwards) withObject:nil waitUntilDone:YES];
-        return;
-    }
-    if (_firstVisibleIndex == [_viewControllers count]-1)
-    {
-        [self performSelector:@selector(slideAndCleanUp) withObject:nil afterDelay:0.3];
-        return;
-    }
-    
-    for (UIViewController *controller in _viewControllers)
-    {
-        [self slideControllerBackwards:controller];
-    }
-//    _firstVisibleIndex++;
+    [self animateControllersGivenFirstVisibleIndex:self.firstVisibleIndex-1];
 }
 
-- (void)slideControllerForwards:(UIViewController *)controller
+- (void)animateControllersGivenFirstVisibleIndex:(int)index
 {
-    [UIView animateWithDuration:0.3
-                          delay:0
-                        options:UIViewAnimationCurveEaseOut
-                     animations:^(void) {
-                         controller.view.frame = CGRectMake(controller.view.frame.origin.x + controller.view.frame.size.width,
-                                                            controller.view.frame.origin.y,
-                                                            controller.view.frame.size.width,
-                                                            controller.view.frame.size.height);
-                     }
-                     completion:^(BOOL finished) {
-                         [self cleanUpControllers];
-                     }];
-}
-
-- (void)slideControllerBackwards:(UIViewController *)controller
-{
-    MLPadMenuViewController *firstVisibleController = [_viewControllers objectAtIndex:_firstVisibleIndex+1];
-    [firstVisibleController.navigationBar setBackButtonEnabled:YES animated:YES];
-
+    if (index > 0) {
+        MLPadMenuViewController *firstVisibleController = [_viewControllers objectAtIndex:index];
+        [firstVisibleController.navigationBar setBackButtonEnabled:YES animated:YES];
+    }
     [UIView animateWithDuration:0.3
                           delay:0
                         options:UIViewAnimationCurveEaseInOut
-                     animations:^(void) {
-                         controller.view.frame = CGRectMake(controller.view.frame.origin.x - controller.view.frame.size.width,
-                                                            controller.view.frame.origin.y,
-                                                            controller.view.frame.size.width,
-                                                            controller.view.frame.size.height);
-                     }
-                     completion:^(BOOL finished) {
-                         [self cleanUpControllers];
+                     animations:^{
+                         for (UIViewController *controller in _viewControllers)
+                         {
+                             controller.view.frame = [self frameForIndex:[_viewControllers indexOfObject:controller]
+                                            givenTargetFirstVisibleIndex:index];
+                         }
+                     } completion:^(BOOL finished) {
+                         
                      }];
 }
 
@@ -253,7 +221,7 @@
 }
 
 - (UIViewController *)visibleViewController {
-    return [_viewControllers objectAtIndex:_firstVisibleIndex];
+    return [_viewControllers objectAtIndex:self.firstVisibleIndex];
 }
 
 - (NSMutableArray *)viewControllers {
@@ -261,7 +229,18 @@
 }
 
 - (int)visibleControllers {
-    return fminf([_viewControllers count] - _firstVisibleIndex, self.maxVisibleControllers);
+    return fminf([_viewControllers count] - self.firstVisibleIndex, self.maxVisibleControllers);
+}
+
+- (int)firstVisibleIndex {
+    for (UIViewController *controller in _viewControllers)
+    {
+        if (controller.view.frame.origin.x == 0) {
+            NSLog(@"first visible: %i", [_viewControllers indexOfObject:controller]);
+            return [_viewControllers indexOfObject:controller];
+        }
+    }
+    return 0;
 }
 
 #pragma mark - Setters
@@ -273,7 +252,14 @@
 #pragma mark - Utility
 
 - (CGRect)frameForIndex:(int)index {
-    return CGRectMake(self.minVisibleFrame.size.width * (index - _firstVisibleIndex),
+    return CGRectMake(self.minVisibleFrame.size.width * (index - self.firstVisibleIndex),
+                      0,
+                      self.minVisibleFrame.size.width,
+                      self.minVisibleFrame.size.height);
+}
+
+- (CGRect)frameForIndex:(int)index givenTargetFirstVisibleIndex:(int)targetFirstVisible {
+    return CGRectMake(self.minVisibleFrame.size.width * (index - targetFirstVisible),
                       0,
                       self.minVisibleFrame.size.width,
                       self.minVisibleFrame.size.height);
@@ -294,7 +280,7 @@
 }
 
 - (BOOL)hasHiddenController {
-    return (_firstVisibleIndex != [_viewControllers count]-1);
+    return (self.firstVisibleIndex != [_viewControllers count]-1);
 }
 
 @end
