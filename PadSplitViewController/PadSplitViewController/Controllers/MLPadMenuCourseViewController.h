@@ -10,6 +10,6 @@
 
 @interface MLPadMenuCourseViewController : MLPadMenuViewController
 
-@property (nonatomic, retain) NSArray *courses;
+@property (nonatomic, strong) NSArray *courses;
 
 @end

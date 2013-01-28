@@ -18,8 +18,8 @@
 
 @interface MLPadMenuNavigationBar : UIView
 
-@property (nonatomic, assign) NSObject <MenuNavigationBarParent> *parent;
-@property (nonatomic, retain) NSString *title;
+@property (nonatomic, weak) NSObject <MenuNavigationBarParent> *parent;
+@property (nonatomic, strong) NSString *title;
 
 - (void)setBackButtonEnabled:(BOOL)enabled animated:(BOOL)animated;
 - (void)setMenuButtonEnabled:(BOOL)enabled animated:(BOOL)animated;

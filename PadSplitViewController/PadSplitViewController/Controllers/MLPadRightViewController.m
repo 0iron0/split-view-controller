@@ -16,7 +16,7 @@
     UIPanGestureRecognizer *_panRecognizer;
 }
 
-@property (nonatomic, retain) UIViewController *viewController;
+@property (nonatomic, strong) UIViewController *viewController;
 
 - (void)configureFadeView;
 - (void)configureTapRecognizer;
@@ -47,15 +47,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [_viewController release];
-    [_fadeView release];
-    [_tapRecognizer release];
-    [_panRecognizer release];
-    
-    [super dealloc];
-}
 
 - (void)viewDidLoad
 {
@@ -76,7 +67,6 @@
 {
     _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fadeTapped:)];
     [_fadeView addGestureRecognizer:_tapRecognizer];
-    [_tapRecognizer release];
 }
 
 - (void)configurePanRecognizer
@@ -142,7 +132,7 @@
 
 - (void)presentContentControllerForItem:(MLCourseMapItem *)item animated:(BOOL)animated
 {
-    MLPadContentViewController *controller = [[[MLPadContentViewController alloc] init] autorelease];
+    MLPadContentViewController *controller = [[MLPadContentViewController alloc] init];
     controller.parent = self;
     controller.view.frame = self.view.bounds;
     [self.view addSubview:controller.view];

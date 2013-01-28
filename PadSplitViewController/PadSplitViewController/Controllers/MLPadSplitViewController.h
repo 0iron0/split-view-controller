@@ -12,8 +12,8 @@
 
 @interface MLPadSplitViewController : UIViewController
 
-@property (nonatomic, retain) MLPadMenuNavigationController *leftViewController;
-@property (nonatomic, retain) MLPadRightViewController *rightViewController;
+@property (nonatomic, strong) MLPadMenuNavigationController *leftViewController;
+@property (nonatomic, strong) MLPadRightViewController *rightViewController;
 
 - (void)presentContentControllerForItem:(MLCourseMapItem *)item animated:(BOOL)animated;
 - (void)presentPopupViewController:(UIViewController *)viewController animated:(BOOL)animated;

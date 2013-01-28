@@ -70,7 +70,6 @@
     image.frame = self.view.bounds;
     image.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:image];
-    [image release];
 }
 
 - (void)configureNavigationBar

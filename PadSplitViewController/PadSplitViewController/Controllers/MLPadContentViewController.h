@@ -12,8 +12,8 @@
 
 @interface MLPadContentViewController : UIViewController
 
-@property (nonatomic, assign) MLPadRightViewController *parent;
-@property (nonatomic, retain) MLPadMenuNavigationBar *navigationBar;
+@property (nonatomic, weak) MLPadRightViewController *parent;
+@property (nonatomic, strong) MLPadMenuNavigationBar *navigationBar;
 
 - (BOOL)shouldShowNavigationBar;
 

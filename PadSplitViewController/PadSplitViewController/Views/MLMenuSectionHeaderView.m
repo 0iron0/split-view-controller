@@ -37,12 +37,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [_pixelDivider release];
-    
-    [super dealloc];
-}
 
 - (void)layoutSubviews
 {

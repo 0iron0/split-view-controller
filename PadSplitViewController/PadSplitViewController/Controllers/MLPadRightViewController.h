@@ -14,7 +14,7 @@
 
 @interface MLPadRightViewController : UIViewController <MenuNavigationBarParent>
 
-@property (nonatomic, assign) MLPadSplitViewController *parent;
+@property (nonatomic, weak) MLPadSplitViewController *parent;
 
 - (void)presentContentControllerForItem:(MLCourseMapItem *)item animated:(BOOL)animated;
 - (void)presentWebControllerForURL:(NSURL *)url;

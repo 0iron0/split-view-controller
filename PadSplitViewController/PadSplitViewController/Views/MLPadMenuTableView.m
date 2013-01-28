@@ -40,7 +40,6 @@
     UIView *blankHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 40)];
     blankHeaderView.backgroundColor = [UIColor clearColor];
     self.tableHeaderView = blankHeaderView;
-    [blankHeaderView release];
     self.contentInset = UIEdgeInsetsMake(-40, 0, 0, 0);
     //NOTE: This is stupid, but it prevents the section headers from floating, which you can't turn off in a Plain TableView
 }

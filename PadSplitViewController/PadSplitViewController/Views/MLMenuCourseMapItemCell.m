@@ -35,13 +35,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [_imageView release];
-    [_image release];
-    
-    [super dealloc];
-}
 
 - (void)layoutSubviews
 {
@@ -62,8 +55,7 @@
 #pragma mark - Setters
 
 - (void)setImage:(UIImage *)image {
-    [_image release];
-    _image = [image retain];
+    _image = image;
     
     _imageView.image = _image;
 }

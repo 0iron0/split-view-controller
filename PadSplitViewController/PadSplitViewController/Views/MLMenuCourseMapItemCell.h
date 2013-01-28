@@ -10,6 +10,6 @@
 
 @interface MLMenuCourseMapItemCell : MLMenuCell
 
-@property (nonatomic, retain) UIImage *image;
+@property (nonatomic, strong) UIImage *image;
 
 @end

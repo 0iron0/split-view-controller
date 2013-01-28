@@ -11,8 +11,8 @@
 
 @interface MLMenuCell : UITableViewCell
 
-@property (nonatomic, assign) NSString *title;
-@property (nonatomic, retain) UIColor *color;
+@property (nonatomic, weak) NSString *title;
+@property (nonatomic, strong) UIColor *color;
 @property (nonatomic, assign) int unreadItems;
 
 - (CGRect)textLabelFrame;

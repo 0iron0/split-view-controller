@@ -12,7 +12,6 @@
 
 @interface MLPadMenuNavigationController () {
     NSMutableArray *_viewControllers;
-//    int _firstVisibleIndex;
     NSMutableArray *_controllersForRemoval;
     UIScrollView *_scrollView;
 }
@@ -23,10 +22,7 @@
 - (void)addController:(UIViewController <MenuViewController> *)controller;
 - (void)removeController:(UIViewController *)controller;
 
-- (void)slideControllerForwards:(UIViewController *)controller;
-- (void)slideControllerBackwards:(UIViewController *)controller;
 - (void)animateControllersGivenFirstVisibleIndex:(int)index;
-
 - (void)cleanUpControllers;
 
 - (CGRect)frameForIndex:(int)index;
@@ -39,7 +35,6 @@
 @synthesize minVisibleFrame = _minVisibleFrame;
 @synthesize visibleControllers;
 @synthesize maxVisibleControllers = _maxVisibleControllers;
-@synthesize minVisibleControllers = _minVisibleControllers;
 @synthesize firstVisibleIndex;
 @synthesize parent;
 
@@ -55,13 +50,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [_viewControllers release];
-    [_scrollView release];
-    
-    [super dealloc];
-}
 
 - (void)viewDidLayoutSubviews
 {
@@ -75,8 +63,8 @@
 
 - (void)configureSelf
 {
-    _viewControllers = [[NSMutableArray arrayWithCapacity:0] retain];
-    _controllersForRemoval = [[NSMutableArray arrayWithCapacity:0] retain];
+    _viewControllers = [NSMutableArray arrayWithCapacity:0];
+    _controllersForRemoval = [NSMutableArray arrayWithCapacity:0];
     _maxVisibleControllers = 1;
     self.view.clipsToBounds = NO;
     self.view.backgroundColor = [UIColor clearColor];
@@ -158,12 +146,12 @@
 
 - (void)slideForwards
 {
-    [self animateControllersGivenFirstVisibleIndex:self.firstVisibleIndex+1];
+    [self animateControllersGivenFirstVisibleIndex:self.firstVisibleIndex-1];
 }
 
 - (void)slideBackwards
 {
-    [self animateControllersGivenFirstVisibleIndex:self.firstVisibleIndex-1];
+    [self animateControllersGivenFirstVisibleIndex:self.firstVisibleIndex+1];
 }
 
 - (void)animateControllersGivenFirstVisibleIndex:(int)index
@@ -182,34 +170,20 @@
                                             givenTargetFirstVisibleIndex:index];
                          }
                      } completion:^(BOOL finished) {
-                         
+                         [self cleanUpControllers];
                      }];
 }
 
 - (void)cleanUpControllers
 {
-    if (![[NSThread currentThread] isMainThread]) {
-        [self performSelectorOnMainThread:@selector(cleanUpControllers) withObject:nil waitUntilDone:YES];
-        return;
-    }
-    while ([_controllersForRemoval count] > 0)
-    {
-        UIViewController *controller = [_controllersForRemoval objectAtIndex:0];
-        [controller.view removeFromSuperview];
-        [_controllersForRemoval removeObjectAtIndex:0];
-    }
-}
-
-- (void)slideAndCleanUp
-{
-    if (![[NSThread currentThread] isMainThread]) {
-        [self performSelectorOnMainThread:@selector(slideAndCleanUp) withObject:nil waitUntilDone:YES];
-        return;
-    }
-    if ([_controllersForRemoval count] > 0)
-    {
-        [self performSelector:@selector(cleanUpControllers) withObject:nil afterDelay:0.3];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        while ([_controllersForRemoval count] > 0)
+        {
+            UIViewController *controller = [_controllersForRemoval objectAtIndex:0];
+            [controller.view removeFromSuperview];
+            [_controllersForRemoval removeObjectAtIndex:0];
+        }
+    });
 }
 
 #pragma mark - Getters
@@ -236,7 +210,6 @@
     for (UIViewController *controller in _viewControllers)
     {
         if (controller.view.frame.origin.x == 0) {
-            NSLog(@"first visible: %i", [_viewControllers indexOfObject:controller]);
             return [_viewControllers indexOfObject:controller];
         }
     }

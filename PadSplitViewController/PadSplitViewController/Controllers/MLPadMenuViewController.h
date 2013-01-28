@@ -13,8 +13,8 @@
 
 @interface MLPadMenuViewController : UIViewController <MenuViewController, MenuNavigationBarParent, UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, assign) MLPadMenuNavigationController *menuNavigationController;
-@property (nonatomic, retain) MLPadMenuNavigationBar *navigationBar;
+@property (nonatomic, weak) MLPadMenuNavigationController *menuNavigationController;
+@property (nonatomic, strong) MLPadMenuNavigationBar *navigationBar;
 
 - (void)pushController:(UIViewController <MenuViewController>*)controller;
 

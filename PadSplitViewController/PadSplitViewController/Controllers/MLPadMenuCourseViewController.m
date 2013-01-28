@@ -37,12 +37,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [_pinView release];
-
-    [super dealloc];
-}
 
 #pragma mark - Configuration
 
@@ -69,7 +63,7 @@
     if (indexPath.section == 0) {
         cell.title = @"Activity Feed";
 //        cell.unreadItems = 1;
-        return [cell autorelease];
+        return cell;
     }
     
     MLCourse *course = [self.courses objectAtIndex:indexPath.row];
@@ -78,7 +72,7 @@
     cell.color = course.color;
     cell.unreadItems = course.unreadItems;
     
-    return [cell autorelease];
+    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -94,15 +88,15 @@
     
     MLCourse *course = [self.courses objectAtIndex:indexPath.row];
 
-    MLPadMenuCourseMapItemViewController *controller = [[[MLPadMenuCourseMapItemViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    MLPadMenuCourseMapItemViewController *controller = [[MLPadMenuCourseMapItemViewController alloc] initWithNibName:nil bundle:nil];
     
-    MLCourseMapItem *week3 = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"Week 3" viewURL:nil linkType:@"" linkTarget:nil isFolder:YES andDateModified:nil] autorelease];
-    MLCourseMapItem *announcements = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"Announcements" viewURL:nil linkType:@"announcements" linkTarget:nil isFolder:NO andDateModified:nil] autorelease];
-    MLCourseMapItem *blogs = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"Blogs" viewURL:nil linkType:@"blogs" linkTarget:nil isFolder:NO andDateModified:nil] autorelease];
-    MLCourseMapItem *liveText = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"LiveText" viewURL:nil linkType:@"CONTENT" linkTarget:nil isFolder:NO andDateModified:nil] autorelease];
-    MLCourseMapItem *week1 = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"Week 1" viewURL:nil linkType:@"" linkTarget:nil isFolder:YES andDateModified:nil] autorelease];
-    MLCourseMapItem *tools = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"Tools" viewURL:nil linkType:@"" linkTarget:nil isFolder:YES andDateModified:nil] autorelease];
-    MLCourseMapItem *week4 = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"Week 4" viewURL:nil linkType:@"" linkTarget:nil isFolder:YES andDateModified:nil] autorelease];
+    MLCourseMapItem *week3 = [[MLCourseMapItem alloc] initWithBBID:nil name:@"Week 3" viewURL:nil linkType:@"" linkTarget:nil isFolder:YES andDateModified:nil];
+    MLCourseMapItem *announcements = [[MLCourseMapItem alloc] initWithBBID:nil name:@"Announcements" viewURL:nil linkType:@"announcements" linkTarget:nil isFolder:NO andDateModified:nil];
+    MLCourseMapItem *blogs = [[MLCourseMapItem alloc] initWithBBID:nil name:@"Blogs" viewURL:nil linkType:@"blogs" linkTarget:nil isFolder:NO andDateModified:nil];
+    MLCourseMapItem *liveText = [[MLCourseMapItem alloc] initWithBBID:nil name:@"LiveText" viewURL:nil linkType:@"CONTENT" linkTarget:nil isFolder:NO andDateModified:nil];
+    MLCourseMapItem *week1 = [[MLCourseMapItem alloc] initWithBBID:nil name:@"Week 1" viewURL:nil linkType:@"" linkTarget:nil isFolder:YES andDateModified:nil];
+    MLCourseMapItem *tools = [[MLCourseMapItem alloc] initWithBBID:nil name:@"Tools" viewURL:nil linkType:@"" linkTarget:nil isFolder:YES andDateModified:nil];
+    MLCourseMapItem *week4 = [[MLCourseMapItem alloc] initWithBBID:nil name:@"Week 4" viewURL:nil linkType:@"" linkTarget:nil isFolder:YES andDateModified:nil];
     
     week3.unreadItems = 2;
     announcements.unreadItems = 1;

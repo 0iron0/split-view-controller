@@ -74,7 +74,6 @@
 {
     _leftViewController.minVisibleFrame = [self leftControllerQuarterViewRect];
     _leftViewController.maxVisibleControllers = [self maxVisibleLeftControllers];
-    _leftViewController.minVisibleControllers = [self minVisibleLeftControllers];
     _leftViewController.view.frame = _leftViewController.totalFrame;
     _rightViewController.view.frame = [self rightControllerRelativeFrame];
 }
@@ -83,8 +82,6 @@
 {
     [super didReceiveMemoryWarning];
     
-    [_leftViewController release];
-    [_rightViewController release];
 }
 
 #pragma mark - View Configuration
@@ -100,7 +97,6 @@
     _leftViewController.parent = self;
     [self.view addSubview:_leftViewController.view];
     
-    [rootController release];
 }
 
 - (void)configureRightViewController
@@ -118,7 +114,6 @@
     _backgroundView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     _backgroundView.backgroundColor = [UIColor colorWithRed:227.0/255 green:227.0/255 blue:227.0/255 alpha:1.0];
     [self.view addSubview:_backgroundView];
-    [_backgroundView release];
 }
 
 - (void)configureNavBar
@@ -127,7 +122,6 @@
     _backgroundNavBar.backgroundColor = [UIColor colorWithRed:235.0/255 green:235.0/255 blue:235.0/255 alpha:1.0];
     _backgroundNavBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self.view addSubview:_backgroundNavBar];
-    [_backgroundNavBar release];
 }
 
 - (void)configureBottomDivider
@@ -136,15 +130,14 @@
     bottomDivider.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     bottomDivider.backgroundColor = [UIColor colorWithRed:189.0/255 green:189.0/255 blue:189.0/255 alpha:1.0];
     [_backgroundNavBar addSubview:bottomDivider];
-    [bottomDivider release];
 }
 
 #pragma mark - Controller Presentation Methods
 
 - (void)presentContentControllerForItem:(MLCourseMapItem *)item animated:(BOOL)animated
 {
-    if (![_rightViewController isDisplayingController])
-        _leftViewController.maxVisibleControllers = [self maxVisibleLeftControllers];
+//    if (![_rightViewController isDisplayingController])
+//        _leftViewController.maxVisibleControllers = [self maxVisibleLeftControllers];
     
     [_rightViewController presentContentControllerForItem:item animated:animated];
     [self slideContentControllerToBase];
@@ -269,22 +262,22 @@
 
 - (void)setCoursesForController:(MLPadMenuCourseViewController *)controller
 {
-    MLCourse *course1 = [[[MLCourse alloc] init] autorelease];
+    MLCourse *course1 = [[MLCourse alloc] init];
     course1.title = @"English 402";
     course1.color = [UIColor colorWithRed:213.0/255 green:20.0/255 blue:37.0/255 alpha:1.0];
     course1.unreadItems = 8;
     
-    MLCourse *course2 = [[[MLCourse alloc] init] autorelease];
+    MLCourse *course2 = [[MLCourse alloc] init];
     course2.title = @"Effective Literacy";
     course2.color = [UIColor colorWithRed:63.0/255 green:117.0/255 blue:205.0/255 alpha:1.0];
     course2.unreadItems = 4;
     
-    MLCourse *course3 = [[[MLCourse alloc] init] autorelease];
+    MLCourse *course3 = [[MLCourse alloc] init];
     course3.title = @"Theories-Meth";
     course3.color = [UIColor colorWithRed:42.0/255 green:203.0/255 blue:133.0/255 alpha:1.0];
     course3.unreadItems = 0;
     
-    MLCourse *course4 = [[[MLCourse alloc] init] autorelease];
+    MLCourse *course4 = [[MLCourse alloc] init];
     course4.title = @"Greek Philosophy";
     course4.color = [UIColor colorWithRed:189.0/255 green:65.0/255 blue:200.0/255 alpha:1.0];
     course4.unreadItems = 6;

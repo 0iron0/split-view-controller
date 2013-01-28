@@ -75,17 +75,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [_color release];
-    [_colorBar release];
-    [_unreadItemsView release];
-    [_unreadItemsLabel release];
-    [_arrow release];
-    [_selectionView release];
-    
-    [super dealloc];
-}
 
 - (void)layoutSubviews
 {
@@ -224,8 +213,7 @@
 }
 
 - (void)setColor:(UIColor *)color {
-    [_color release];
-    _color = [color retain];
+    _color = color;
     
     _colorBar.backgroundColor = _color;
     _unreadItemsView.backgroundColor = _color;

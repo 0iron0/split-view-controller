@@ -11,8 +11,8 @@
 
 @interface MLPadMenuCourseMapItemViewController : MLPadMenuViewController
 
-@property (nonatomic, retain) NSArray *courseMap;
-@property (nonatomic, retain) NSArray *favorites;
-@property (nonatomic, retain) MLCourse *course;
+@property (nonatomic, strong) NSArray *courseMap;
+@property (nonatomic, strong) NSArray *favorites;
+@property (nonatomic, strong) MLCourse *course;
 
 @end

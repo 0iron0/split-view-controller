@@ -56,14 +56,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [_navigationBar release];
-    [_tableView release];
-    [_rightDivider release];
-    
-    [super dealloc];
-}
 
 - (void)viewDidLoad
 {
@@ -181,7 +173,7 @@
 {
     if (section == 0)
         return nil;
-    return [[[MLMenuSectionHeaderView alloc] init] autorelease];
+    return [[MLMenuSectionHeaderView alloc] init];
 }
 
 - (void)pushController:(UIViewController <MenuViewController>*)controller

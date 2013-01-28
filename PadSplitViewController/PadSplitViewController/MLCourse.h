@@ -10,9 +10,9 @@
 
 @interface MLCourse : NSObject
 
-@property (nonatomic, retain) NSString *title;
-@property (nonatomic, retain) UIColor *color;
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) UIColor *color;
 @property (nonatomic, assign) int unreadItems;
-@property (nonatomic, retain) NSArray *courseMap;
+@property (nonatomic, strong) NSArray *courseMap;
 
 @end

@@ -18,15 +18,14 @@
 
 @interface MLPadMenuNavigationController : UIViewController
 
-@property (nonatomic, readonly) UIViewController <MenuViewController> *topViewController;
-@property (nonatomic, readonly) UIViewController <MenuViewController> *visibleViewController;
-@property (nonatomic, readonly) NSMutableArray *viewControllers;
+@property (weak, nonatomic, readonly) UIViewController <MenuViewController> *topViewController;
+@property (weak, nonatomic, readonly) UIViewController <MenuViewController> *visibleViewController;
+@property (weak, nonatomic, readonly) NSMutableArray *viewControllers;
 @property (nonatomic, assign) CGRect minVisibleFrame;
-@property (nonatomic, readonly) int visibleControllers;
 @property (nonatomic, assign) int maxVisibleControllers;
-@property (nonatomic, assign) int minVisibleControllers;
-@property (nonatomic, assign) int firstVisibleIndex;
-@property (nonatomic, assign) MLPadSplitViewController *parent;
+@property (nonatomic, readonly) int visibleControllers;
+@property (nonatomic, readonly) int firstVisibleIndex;
+@property (nonatomic, weak) MLPadSplitViewController *parent;
 
 - (id)initWithRootViewController:(UIViewController <MenuViewController> *)rootController;
 

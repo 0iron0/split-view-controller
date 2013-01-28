@@ -18,7 +18,7 @@
 
 @synthesize name, itemID = item_id, linkTarget = link_target, linkType = link_type;
 @synthesize viewURL = view_url;
-@synthesize dateModified = date_modified;
+//@synthesize dateModified = date_modified;
 @synthesize isFolder = is_folder, selected;
 @synthesize itemType;
 @synthesize children;
@@ -27,18 +27,6 @@
 @synthesize unreadItems;
 @synthesize parentCourse;
 
-- (void)dealloc
-{
-	[name release];
-	[item_id release];
-	[link_target release];
-	[link_type release];
-	[view_url release];
-	[date_modified release];
-	[children release];
-	
-	[super dealloc];
-}
 
 #define IFEL(a) if([theLinkType isEqualToString:a])
 #define EIFEL(a) else if([theLinkType isEqualToString:a])
@@ -232,7 +220,7 @@
 		self.linkType = theLinkType;
 		self.linkTarget = theLinkTarget;
 		self.isFolder = theIsFolder;
-		self.dateModified = theDate;
+//		self.dateModified = theDate;
 	}
 	return self;
 }

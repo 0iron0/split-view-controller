@@ -60,7 +60,7 @@
     cell.unreadItems = courseMapItem.unreadItems;
     cell.image = [UIImage imageNamed:[MLCourseMapItem iPhoneImageNameForCourseMapItem:courseMapItem]];
     
-    return [cell autorelease];
+    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -78,11 +78,11 @@
     
     if (courseMapItem.isFolder)
     {
-        MLPadMenuCourseMapItemViewController *controller = [[[MLPadMenuCourseMapItemViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+        MLPadMenuCourseMapItemViewController *controller = [[MLPadMenuCourseMapItemViewController alloc] initWithNibName:nil bundle:nil];
         
-        MLCourseMapItem *announcements = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"Announcements" viewURL:nil linkType:@"announcements" linkTarget:nil isFolder:NO andDateModified:nil] autorelease];
-        MLCourseMapItem *blogs = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"Blogs" viewURL:nil linkType:@"blogs" linkTarget:nil isFolder:NO andDateModified:nil] autorelease];
-        MLCourseMapItem *liveText = [[[MLCourseMapItem alloc] initWithBBID:nil name:@"LiveText" viewURL:nil linkType:@"CONTENT" linkTarget:nil isFolder:NO andDateModified:nil] autorelease];
+        MLCourseMapItem *announcements = [[MLCourseMapItem alloc] initWithBBID:nil name:@"Announcements" viewURL:nil linkType:@"announcements" linkTarget:nil isFolder:NO andDateModified:nil];
+        MLCourseMapItem *blogs = [[MLCourseMapItem alloc] initWithBBID:nil name:@"Blogs" viewURL:nil linkType:@"blogs" linkTarget:nil isFolder:NO andDateModified:nil];
+        MLCourseMapItem *liveText = [[MLCourseMapItem alloc] initWithBBID:nil name:@"LiveText" viewURL:nil linkType:@"CONTENT" linkTarget:nil isFolder:NO andDateModified:nil];
         
         announcements.unreadItems = 1;
         blogs.unreadItems = 3;

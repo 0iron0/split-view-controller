@@ -50,14 +50,14 @@ typedef enum {
 
 @interface MLCourseMapItem : NSObject
 {
-	NSString *item_id;
+	NSString *__weak item_id;
 	NSString *name;
 	NSString *link_target;
 	NSString *link_type;
 	
 	NSURL *view_url;
 	
-	TCDate *date_modified;
+//	TCDate *date_modified;
 	
 	BOOL is_folder;
 	BOOL selected;
@@ -65,19 +65,19 @@ typedef enum {
 	
 	NSMutableArray *children;
 	
-	MLCourseMapItem *parent_item;
+	MLCourseMapItem *__weak parent_item;
 }
 
-@property(nonatomic, retain) NSString *name, *linkTarget, *linkType;
-@property(nonatomic, readonly) NSString *itemID;
-@property(nonatomic, retain) NSURL *viewURL;
-@property(nonatomic, retain) TCDate *dateModified;
+@property(nonatomic, strong) NSString *name, *linkTarget, *linkType;
+@property(weak, nonatomic, readonly) NSString *itemID;
+@property(nonatomic, strong) NSURL *viewURL;
+//@property(nonatomic, retain) TCDate *dateModified;
 @property(nonatomic, assign) BOOL isFolder, selected, assessmentIsMobileFriendly;
 @property(nonatomic, readonly) MLCourseMapItemType itemType;
-@property(nonatomic, retain) NSMutableArray *children;
-@property(nonatomic, assign) MLCourseMapItem *parentItem;
+@property(nonatomic, strong) NSMutableArray *children;
+@property(nonatomic, weak) MLCourseMapItem *parentItem;
 @property (nonatomic, assign) int unreadItems;
-@property (nonatomic, assign) MLCourse *parentCourse;
+@property (nonatomic, weak) MLCourse *parentCourse;
 
 + (MLCourseMapItemType)itemTypeForLinkType:(NSString *)theLinkType;
 +(NSString *)iPhoneImageNameForCourseMapItem:(MLCourseMapItem *)item;

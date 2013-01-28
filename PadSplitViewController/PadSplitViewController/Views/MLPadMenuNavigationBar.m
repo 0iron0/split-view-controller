@@ -57,16 +57,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [_title release];
-    [_backButton release];
-    [_menuButton release];
-    [_titleLabel release];
-    [_bottomDivider release];
-    
-    [super dealloc];
-}
 
 - (void)layoutSubviews
 {
@@ -101,7 +91,7 @@
 
 - (void)configureBackButton
 {
-    _backButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+    _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _backButton.frame = CGRectZero;
     [_backButton setImage:[UIImage imageNamed:@"MLBackArrow.png"] forState:UIControlStateNormal];
     _backButton.alpha = 0;
@@ -110,7 +100,7 @@
 
 - (void)configureMenuButton
 {
-    _menuButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+    _menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _menuButton.frame = CGRectZero;
     [_menuButton setImage:[UIImage imageNamed:@"MLMenuIcon.png"] forState:UIControlStateNormal];
     _menuButton.alpha = 0;
@@ -173,7 +163,6 @@
 
 - (void)setTitle:(NSString *)title
 {
-    [_title release];
     _title = title;
     
     _titleLabel.text = _title;
