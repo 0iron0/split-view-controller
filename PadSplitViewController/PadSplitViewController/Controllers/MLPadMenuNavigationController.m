@@ -241,7 +241,7 @@
 - (CGRect)totalFrame {
     return CGRectMake(0,
                       0,
-                      self.minVisibleFrame.size.width * [_viewControllers count],
+                      self.minVisibleFrame.size.width * self.visibleControllers,
                       self.minVisibleFrame.size.height);
 }
 

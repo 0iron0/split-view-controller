@@ -22,5 +22,11 @@
 - (void)slideContentControllerToBase;
 - (void)slideContentControllerRight;
 - (void)slideContentControllerToMax;
+- (void)slideContentControllerToClosestSide;
+
+- (BOOL)rightControllerIsPastLastLeftController;
+- (BOOL)rightControllerIsBeforeBase;
+
+- (void)updatedRightController;
 
 @end

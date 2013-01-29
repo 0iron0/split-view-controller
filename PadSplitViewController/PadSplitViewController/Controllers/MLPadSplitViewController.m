@@ -81,7 +81,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    
 }
 
 #pragma mark - View Configuration
@@ -139,9 +138,9 @@
 //    if (![_rightViewController isDisplayingController])
 //        _leftViewController.maxVisibleControllers = [self maxVisibleLeftControllers];
     
+    [self.view bringSubviewToFront:_rightViewController.view];
     [_rightViewController presentContentControllerForItem:item animated:animated];
     [self slideContentControllerToBase];
-    [self.view bringSubviewToFront:_rightViewController.view];
 }
 
 - (void)presentPopupViewController:(UIViewController *)viewController animated:(BOOL)animated
@@ -185,16 +184,45 @@
 
 - (void)slideContentControllerToMax
 {
-    if (CGRectEqualToRect(_rightViewController.view.frame, [self rightControllerRelativeFrame]))
+    if (CGRectEqualToRect(_rightViewController.view.frame, [self rightControllerRelativeFrame]) && [self isLandscape])
         return;
     
     [UIView animateWithDuration:0.3
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         _rightViewController.view.frame = [self rightControllerRelativeFrame];
                          [_rightViewController addFade];
+                         _rightViewController.view.frame = [self rightControllerRelativeFrame];
                      } completion:nil];
+}
+
+- (void)slideContentControllerToClosestSide
+{
+    CGRect baseFrame = [self rightControllerBaseFrame];
+    CGRect maxFrame = [self rightControllerMaxFrame];
+    CGRect closestFrame = [self closestRectToTarget:_rightViewController.view.frame givenRect:baseFrame andRect:maxFrame];
+    
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         _rightViewController.view.frame = closestFrame;
+                     } completion:nil];
+}
+
+- (void)updatedRightController
+{
+    
+}
+
+- (CGRect)closestRectToTarget:(CGRect)targetRect givenRect:(CGRect)rectOne andRect:(CGRect)rectTwo
+{
+    float differenceOne = fabsf(targetRect.origin.x - rectOne.origin.x);
+    float differenceTwo = fabsf(targetRect.origin.x - rectTwo.origin.x);
+    
+    if (differenceOne < differenceTwo)
+        return rectOne;
+    return rectTwo;
 }
 
 #pragma mark - Frame Defines
@@ -207,7 +235,11 @@
 }
 
 - (CGRect)rightControllerRelativeFrame {
-    return CGRectMake(_leftViewController.minVisibleFrame.size.width * _leftViewController.visibleControllers,
+    int visibleControllers = _leftViewController.visibleControllers;
+    if ([self minVisibleLeftControllers] == 0 && ![_rightViewController isFaded])
+        visibleControllers = 0;
+    
+    return CGRectMake(_leftViewController.minVisibleFrame.size.width * visibleControllers,
                       _leftViewController.minVisibleFrame.origin.y,
                       floorf([self padViewSize].width / 4) * 3,
                       _leftViewController.minVisibleFrame.size.height);
@@ -221,7 +253,7 @@
 }
 
 - (CGRect)rightControllerMaxFrame {
-    return CGRectMake(_leftViewController.minVisibleFrame.size.width * [self maxVisibleLeftControllers],
+    return CGRectMake(_leftViewController.minVisibleFrame.size.width * fminf([self maxVisibleLeftControllers], [_leftViewController.viewControllers count]),
                       _leftViewController.minVisibleFrame.origin.y,
                       floorf([self padViewSize].width / 4) * 3,
                       _leftViewController.minVisibleFrame.size.height);
@@ -230,7 +262,7 @@
 #pragma mark - Utility
 
 - (CGSize)padViewSize {
-    return CGSizeMake(fmaxf(self.view.bounds.size.width, self.view.bounds.size.height),
+    return CGSizeMake(1024 /*fmaxf(self.view.bounds.size.width, self.view.bounds.size.height)*/,
                       fminf(self.view.bounds.size.width, self.view.bounds.size.height));
 }
 
@@ -256,6 +288,14 @@
 
 - (BOOL)isLandscape {
     return UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation);
+}
+
+- (BOOL)rightControllerIsPastLastLeftController {
+    return (_rightViewController.view.frame.origin.x > CGRectGetMaxX(_leftViewController.view.frame));
+}
+
+- (BOOL)rightControllerIsBeforeBase {
+    return (_rightViewController.view.frame.origin.x < [self rightControllerBaseFrame].origin.x);
 }
 
 #pragma mark - Temporary Methods

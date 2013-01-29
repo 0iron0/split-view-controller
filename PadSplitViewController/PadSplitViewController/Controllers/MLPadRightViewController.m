@@ -101,8 +101,17 @@
     [self.parent slideContentControllerToBase];
 }
 
+static CGRect startingFrame;
+static float decelerationRate = 2.0;
+static float previousTranslation;
+
 - (void)userPanned:(UIPanGestureRecognizer *)recognizer
 {
+    if (recognizer.state == UIGestureRecognizerStateBegan)
+    {
+        startingFrame = self.view.frame;
+        previousTranslation = 0;
+    }
     if (recognizer.state == UIGestureRecognizerStateChanged)
     {
         if ([recognizer translationInView:recognizer.view].x >= 50)
@@ -115,6 +124,21 @@
             if ([self isFaded])
                 [self.parent slideContentControllerToBase];
         }
+//        float newTranslation = [recognizer translationInView:recognizer.view].x - previousTranslation;
+//        previousTranslation += newTranslation;
+//        
+//        if ([parent rightControllerIsPastLastLeftController] || [parent rightControllerIsBeforeBase])
+//            newTranslation /= decelerationRate;
+//        
+//        CGRect targetFrame = self.view.frame;
+//        targetFrame.origin.x += newTranslation;
+//        self.view.frame = targetFrame;
+//        
+//        [parent updatedRightController];
+    }
+    else if (recognizer.state == UIGestureRecognizerStateEnded)
+    {
+//        [parent slideContentControllerToClosestSide];
     }
 }
 
@@ -159,11 +183,9 @@
                           delay:0.3
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         
-                         controller.view.frame = destinationFrame;
-                         
+                         controller.view.frame = destinationFrame;                         
                      } completion:^(BOOL finished) {
-                         [self.view.superview bringSubviewToFront:self.view];
+//                         [self.view.superview bringSubviewToFront:self.view];
                          [_viewController.view removeFromSuperview];
                          self.viewController = controller;
                      }];
