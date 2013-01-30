@@ -171,6 +171,7 @@
                          }
                      } completion:^(BOOL finished) {
                          [self cleanUpControllers];
+                         self.view.frame = [self totalFrame];
                      }];
 }
 

@@ -27,6 +27,6 @@
 - (BOOL)rightControllerIsPastLastLeftController;
 - (BOOL)rightControllerIsBeforeBase;
 
-- (void)updatedRightController;
+- (void)movedRightControllerDistance:(float)distance;
 
 @end

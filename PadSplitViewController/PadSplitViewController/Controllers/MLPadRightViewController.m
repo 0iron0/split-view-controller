@@ -10,6 +10,8 @@
 #import "MLPadContentViewController.h"
 #import "MLCourseMapItem.h"
 
+#define MAX_FADE_ALPHA 0.7
+
 @interface MLPadRightViewController () {
     UIView *_fadeView;
     UITapGestureRecognizer *_tapRecognizer;
@@ -81,7 +83,7 @@
     _fadeView.frame = _viewController.view.bounds;
     [_viewController.view addSubview:_fadeView];
     [_viewController.view bringSubviewToFront:_fadeView];
-    _fadeView.alpha = 0.7;
+    _fadeView.alpha = MAX_FADE_ALPHA;
 }
 
 - (void)fadeFade
@@ -111,34 +113,55 @@ static float previousTranslation;
     {
         startingFrame = self.view.frame;
         previousTranslation = 0;
+        if (![self isFaded])
+        {
+            [self addFade];
+            _fadeView.alpha = 0;
+        }
     }
     if (recognizer.state == UIGestureRecognizerStateChanged)
     {
-        if ([recognizer translationInView:recognizer.view].x >= 50)
+//        if ([recognizer translationInView:recognizer.view].x >= 50)
+//        {
+//            if (![self isFaded])
+//                [self.parent slideContentControllerToMax];
+//        }
+//        else if ([recognizer translationInView:recognizer.view].x <= -50)
+//        {
+//            if ([self isFaded])
+//                [self.parent slideContentControllerToBase];
+//        }
+        
+        float newTranslation = floorf([recognizer translationInView:recognizer.view].x - previousTranslation);
+        previousTranslation += newTranslation;
+        
+        if ([parent rightControllerIsPastLastLeftController] || [parent rightControllerIsBeforeBase])
+            newTranslation = floorf(newTranslation/decelerationRate);
+        
+        CGRect targetFrame = self.view.frame;
+        targetFrame.origin.x += newTranslation;
+        self.view.frame = targetFrame;
+        
+        [parent movedRightControllerDistance:newTranslation];
+        
+        if (previousTranslation > 0)
         {
-            if (![self isFaded])
-                [self.parent slideContentControllerToMax];
+            float oneColumnWidth = self.view.bounds.size.width/3;
+            float targetPercent = previousTranslation / oneColumnWidth;
+            float newAlpha = fminf(MAX_FADE_ALPHA * targetPercent, MAX_FADE_ALPHA);
+            _fadeView.alpha = newAlpha;
         }
-        else if ([recognizer translationInView:recognizer.view].x <= -50)
+        else if (previousTranslation < 0 && ![parent rightControllerIsBeforeBase])
         {
-            if ([self isFaded])
-                [self.parent slideContentControllerToBase];
+            float oneColumnWidth = self.view.bounds.size.width/3;
+            float targetPercent = fabsf(previousTranslation / oneColumnWidth);
+            float newAlpha = MAX_FADE_ALPHA - fminf(MAX_FADE_ALPHA * targetPercent, MAX_FADE_ALPHA);
+            _fadeView.alpha = newAlpha;
         }
-//        float newTranslation = [recognizer translationInView:recognizer.view].x - previousTranslation;
-//        previousTranslation += newTranslation;
-//        
-//        if ([parent rightControllerIsPastLastLeftController] || [parent rightControllerIsBeforeBase])
-//            newTranslation /= decelerationRate;
-//        
-//        CGRect targetFrame = self.view.frame;
-//        targetFrame.origin.x += newTranslation;
-//        self.view.frame = targetFrame;
-//        
-//        [parent updatedRightController];
     }
     else if (recognizer.state == UIGestureRecognizerStateEnded)
     {
-//        [parent slideContentControllerToClosestSide];
+        [parent slideContentControllerToClosestSide];
     }
 }
 

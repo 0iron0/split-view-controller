@@ -77,7 +77,6 @@
 
 - (void)configureTitleLabel
 {
-    NSLog(@"FONTS: %@", [UIFont fontNamesForFamilyName:@"Lato"]);
     _titleLabel = [[UILabel alloc] init];
     _titleLabel.font                        = MENU_NAV_BAR_TITLE_FONT;
     _titleLabel.textAlignment               = NSTextAlignmentCenter;

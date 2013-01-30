@@ -16,6 +16,7 @@
 @interface MLPadSplitViewController () {
     UIView *_backgroundNavBar;
     UIView *_backgroundView;
+    int _currentRightIndex;
 }
 
 - (void)configureLeftViewController;
@@ -61,6 +62,7 @@
     [self configureBottomDivider];
     [self configureLeftViewController];
     [self configureRightViewController];
+    _currentRightIndex = -1;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -157,6 +159,8 @@
 
 - (void)slideContentControllerToBase
 {
+    _currentRightIndex = [self minRightIndex];
+
     [UIView animateWithDuration:0.3
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
@@ -172,47 +176,83 @@
 {
     CGRect destinationFrame = _rightViewController.view.frame;
     destinationFrame.origin.x += (_rightViewController.view.bounds.size.width/3);
-    
+    _currentRightIndex++;
+
     [UIView animateWithDuration:0.3
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          _rightViewController.view.frame = destinationFrame;
                          [_rightViewController addFade];
-                     } completion:nil];
+                     } completion:^(BOOL finished) {
+                     }];
 }
 
 - (void)slideContentControllerToMax
 {
-    if (CGRectEqualToRect(_rightViewController.view.frame, [self rightControllerRelativeFrame]) && [self isLandscape])
-        return;
-    
+//    if (CGRectEqualToRect(_rightViewController.view.frame, [self rightControllerRelativeFrame]))
+//        return;
+    _currentRightIndex = [self maxRightIndex];
+
     [UIView animateWithDuration:0.3
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          [_rightViewController addFade];
                          _rightViewController.view.frame = [self rightControllerRelativeFrame];
-                     } completion:nil];
+                     } completion:^(BOOL finished) {
+                     }];
 }
 
 - (void)slideContentControllerToClosestSide
 {
-    CGRect baseFrame = [self rightControllerBaseFrame];
-    CGRect maxFrame = [self rightControllerMaxFrame];
-    CGRect closestFrame = [self closestRectToTarget:_rightViewController.view.frame givenRect:baseFrame andRect:maxFrame];
+    CGRect closestFrame = [self closestRectToTarget:_rightViewController.view.frame
+                                          givenRect:[self rightControllerBaseFrame]
+                                            andRect:[self rightControllerMaxFrame]];
     
-    [UIView animateWithDuration:0.3
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         _rightViewController.view.frame = closestFrame;
-                     } completion:nil];
+    if (CGRectEqualToRect(closestFrame, [self rightControllerMaxFrame])) {
+        CGRect targetFrame = _leftViewController.view.frame;
+        targetFrame.origin.x = ([self maxRightIndex] - _leftViewController.visibleControllers) * _leftViewController.minVisibleFrame.size.width;
+        
+        [UIView animateWithDuration:0.3
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             _leftViewController.view.frame = targetFrame;
+                         } completion:^(BOOL finished) {
+                             
+                         }];
+        
+        [self slideContentControllerToMax];
+    }
+    else {        
+        CGRect targetFrame = _leftViewController.view.frame;
+        targetFrame.origin.x = 0;
+        
+        [UIView animateWithDuration:0.3
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             _leftViewController.view.frame = targetFrame;
+                         } completion:^(BOOL finished) {
+                             
+                         }];
+        
+        [self slideContentControllerToBase];
+    }
 }
 
-- (void)updatedRightController
+- (void)movedRightControllerDistance:(float)distance
 {
+    CGRect leftFrame = _leftViewController.view.frame;
+    leftFrame.origin.x += distance;
     
+    float maxOrigin = ([self maxRightIndex] - _leftViewController.visibleControllers) * _leftViewController.minVisibleFrame.size.width;
+    
+    if (leftFrame.origin.x > maxOrigin)
+        leftFrame.origin.x = maxOrigin;
+    
+    _leftViewController.view.frame = leftFrame;
 }
 
 - (CGRect)closestRectToTarget:(CGRect)targetRect givenRect:(CGRect)rectOne andRect:(CGRect)rectTwo
@@ -239,7 +279,7 @@
     if ([self minVisibleLeftControllers] == 0 && ![_rightViewController isFaded])
         visibleControllers = 0;
     
-    return CGRectMake(_leftViewController.minVisibleFrame.size.width * visibleControllers,
+    return CGRectMake(_leftViewController.minVisibleFrame.size.width * [self currentRightIndex],
                       _leftViewController.minVisibleFrame.origin.y,
                       floorf([self padViewSize].width / 4) * 3,
                       _leftViewController.minVisibleFrame.size.height);
@@ -253,10 +293,26 @@
 }
 
 - (CGRect)rightControllerMaxFrame {
-    return CGRectMake(_leftViewController.minVisibleFrame.size.width * fminf([self maxVisibleLeftControllers], [_leftViewController.viewControllers count]),
+    return CGRectMake(_leftViewController.minVisibleFrame.size.width * [self maxRightIndex],
                       _leftViewController.minVisibleFrame.origin.y,
                       floorf([self padViewSize].width / 4) * 3,
                       _leftViewController.minVisibleFrame.size.height);
+}
+
+- (int)currentRightIndex
+{
+    if (_currentRightIndex == -1)
+        _currentRightIndex = ([self isLandscape]) ? 1 : 0;
+    
+    return _currentRightIndex;
+}
+
+- (int)maxRightIndex {
+    return fminf([self maxVisibleLeftControllers], [_leftViewController.viewControllers count]);
+}
+
+- (int)minRightIndex {
+    return [self minVisibleLeftControllers];
 }
 
 #pragma mark - Utility
