@@ -147,7 +147,7 @@ static float previousTranslation;
         if (previousTranslation > 0)
         {
             float oneColumnWidth = self.view.bounds.size.width/3;
-            float targetPercent = previousTranslation / oneColumnWidth;
+            float targetPercent = previousTranslation / (oneColumnWidth/2);
             float newAlpha = fminf(MAX_FADE_ALPHA * targetPercent, MAX_FADE_ALPHA);
             _fadeView.alpha = newAlpha;
         }

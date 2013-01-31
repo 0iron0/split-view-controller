@@ -22,7 +22,6 @@
 - (void)addController:(UIViewController <MenuViewController> *)controller;
 - (void)removeController:(UIViewController *)controller;
 
-- (void)animateControllersGivenFirstVisibleIndex:(int)index;
 - (void)cleanUpControllers;
 
 - (CGRect)frameForIndex:(int)index;
@@ -208,13 +207,22 @@
 }
 
 - (int)firstVisibleIndex {
-    for (UIViewController *controller in _viewControllers)
+    
+    int closestDistance = 100000;
+    int closestIndex = 0;
+    
+    for (int i = 0; i < [_viewControllers count]; i++)
     {
-        if (controller.view.frame.origin.x == 0) {
-            return [_viewControllers indexOfObject:controller];
+        UIViewController *controller = [_viewControllers objectAtIndex:i];
+        CGRect convertedFrame = [self.view.superview convertRect:controller.view.frame fromView:controller.view.superview];
+        int distance = abs((int)convertedFrame.origin.x);
+        
+        if (distance < closestDistance) {
+            closestDistance = distance;
+            closestIndex = i;
         }
     }
-    return 0;
+    return closestIndex;
 }
 
 #pragma mark - Setters

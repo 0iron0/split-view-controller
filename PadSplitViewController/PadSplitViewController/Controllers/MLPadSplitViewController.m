@@ -143,6 +143,7 @@
     [self.view bringSubviewToFront:_rightViewController.view];
     [_rightViewController presentContentControllerForItem:item animated:animated];
     [self slideContentControllerToBase];
+    originalVisibleIndex = -1;
 }
 
 - (void)presentPopupViewController:(UIViewController *)viewController animated:(BOOL)animated
@@ -204,53 +205,67 @@
                      }];
 }
 
+static int originalVisibleIndex = -1;
+
 - (void)slideContentControllerToClosestSide
-{
+{    
     CGRect closestFrame = [self closestRectToTarget:_rightViewController.view.frame
                                           givenRect:[self rightControllerBaseFrame]
                                             andRect:[self rightControllerMaxFrame]];
     
+    CGRect targetFrame = _leftViewController.view.frame;
+    int firstVisibleIndex = _leftViewController.firstVisibleIndex;
     if (CGRectEqualToRect(closestFrame, [self rightControllerMaxFrame])) {
-        CGRect targetFrame = _leftViewController.view.frame;
-        targetFrame.origin.x = ([self maxRightIndex] - _leftViewController.visibleControllers) * _leftViewController.minVisibleFrame.size.width;
-        
-        [UIView animateWithDuration:0.3
-                              delay:0
-                            options:UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-                             _leftViewController.view.frame = targetFrame;
-                         } completion:^(BOOL finished) {
-                             
-                         }];
+        targetFrame.origin.x = ((fminf([self maxRightIndex], [_leftViewController.viewControllers count])-1) * _leftViewController.minVisibleFrame.size.width);
         
         [self slideContentControllerToMax];
+        if (([_leftViewController.viewControllers count] - firstVisibleIndex) < [self maxVisibleLeftControllers])
+            firstVisibleIndex = [_leftViewController.viewControllers count] - [self maxVisibleLeftControllers];
     }
     else {        
-        CGRect targetFrame = _leftViewController.view.frame;
         targetFrame.origin.x = 0;
-        
-        [UIView animateWithDuration:0.3
-                              delay:0
-                            options:UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-                             _leftViewController.view.frame = targetFrame;
-                         } completion:^(BOOL finished) {
-                             
-                         }];
-        
+
         [self slideContentControllerToBase];
+        firstVisibleIndex = originalVisibleIndex;
+        originalVisibleIndex = -1;
     }
+    [_leftViewController animateControllersGivenFirstVisibleIndex:firstVisibleIndex];
+
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         _leftViewController.view.frame = _leftViewController.totalFrame;
+                     } completion:^(BOOL finished) {
+                     }];
 }
 
 - (void)movedRightControllerDistance:(float)distance
 {
-    CGRect leftFrame = _leftViewController.view.frame;
-    leftFrame.origin.x += distance;
+    if ([self leftControllerHasExpanded] && distance > 0 && _leftViewController.view.frame.origin.x == 0)
+        return;
     
-    float maxOrigin = ([self maxRightIndex] - _leftViewController.visibleControllers) * _leftViewController.minVisibleFrame.size.width;
+    if (originalVisibleIndex < 0)
+        originalVisibleIndex = _leftViewController.firstVisibleIndex;
+    
+    CGRect leftFrame = _leftViewController.view.frame;
+    leftFrame.origin.x = _rightViewController.view.frame.origin.x - leftFrame.size.width;
+    
+//    if (originalVisibleIndex != _leftViewController.firstVisibleIndex) {
+//        leftFrame.size.width = _leftViewController.visibleControllers * _leftViewController.minVisibleFrame.size.width;
+//        originalVisibleIndex = _leftViewController.firstVisibleIndex;
+//    }
+    
+    float maxOrigin = (fminf([self maxRightIndex]-1, originalVisibleIndex/*[_leftViewController.viewControllers count]*/) * _leftViewController.minVisibleFrame.size.width);
+    float minOrigin = ([self leftControllerHasExpanded]) ? (-originalVisibleIndex * _leftViewController.minVisibleFrame.size.width) : 0;
+    
+    if (_rightViewController.view.frame.origin.x > maxOrigin + leftFrame.size.width && leftFrame.origin.x < maxOrigin)
+        return;
     
     if (leftFrame.origin.x > maxOrigin)
         leftFrame.origin.x = maxOrigin;
+    else if (leftFrame.origin.x < minOrigin)
+        leftFrame.origin.x = minOrigin;
     
     _leftViewController.view.frame = leftFrame;
 }
@@ -263,6 +278,10 @@
     if (differenceOne < differenceTwo)
         return rectOne;
     return rectTwo;
+}
+
+- (BOOL)leftControllerHasExpanded {
+    return (_leftViewController.view.bounds.size.width > _leftViewController.minVisibleFrame.size.width);
 }
 
 #pragma mark - Frame Defines

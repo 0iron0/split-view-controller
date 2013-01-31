@@ -38,6 +38,8 @@
 - (void)slideForwards;
 - (void)slideBackwards;
 
+- (void)animateControllersGivenFirstVisibleIndex:(int)index;
+
 - (CGRect)totalFrame;
 - (CGRect)currentlyVisibleFrame;
 
