@@ -136,10 +136,7 @@
 #pragma mark - Controller Presentation Methods
 
 - (void)presentContentControllerForItem:(MLCourseMapItem *)item animated:(BOOL)animated
-{
-//    if (![_rightViewController isDisplayingController])
-//        _leftViewController.maxVisibleControllers = [self maxVisibleLeftControllers];
-    
+{    
     [self.view bringSubviewToFront:_rightViewController.view];
     [_rightViewController presentContentControllerForItem:item animated:animated];
     [self slideContentControllerToBase];
@@ -191,8 +188,6 @@
 
 - (void)slideContentControllerToMax
 {
-//    if (CGRectEqualToRect(_rightViewController.view.frame, [self rightControllerRelativeFrame]))
-//        return;
     _currentRightIndex = [self maxRightIndex];
 
     [UIView animateWithDuration:0.3
@@ -216,20 +211,20 @@ static int originalVisibleIndex = -1;
     CGRect targetFrame = _leftViewController.view.frame;
     int firstVisibleIndex = _leftViewController.firstVisibleIndex;
     if (CGRectEqualToRect(closestFrame, [self rightControllerMaxFrame])) {
-        targetFrame.origin.x = ((fminf([self maxRightIndex], [_leftViewController.viewControllers count])-1) * _leftViewController.minVisibleFrame.size.width);
+        targetFrame.origin.x = (([self maxRightIndex]-1) * _leftViewController.minVisibleFrame.size.width); //origin of last left index
         
         [self slideContentControllerToMax];
         if (([_leftViewController.viewControllers count] - firstVisibleIndex) < [self maxVisibleLeftControllers])
-            firstVisibleIndex = [_leftViewController.viewControllers count] - [self maxVisibleLeftControllers];
+            firstVisibleIndex = [_leftViewController.viewControllers count] - [self maxVisibleLeftControllers]; //reset first visible if swiping has expanded left controller
     }
     else {        
-        targetFrame.origin.x = 0;
+        targetFrame.origin.x = 0; //origin of first left index
 
         [self slideContentControllerToBase];
         firstVisibleIndex = originalVisibleIndex;
         originalVisibleIndex = -1;
     }
-    [_leftViewController animateControllersGivenFirstVisibleIndex:firstVisibleIndex];
+    [_leftViewController animateControllersGivenFirstVisibleIndex:firstVisibleIndex]; //option not to animate this, shouldn't here
 
     [UIView animateWithDuration:0.3
                           delay:0
@@ -243,7 +238,7 @@ static int originalVisibleIndex = -1;
 - (void)movedRightControllerDistance:(float)distance
 {
     if ([self leftControllerHasExpanded] && distance > 0 && _leftViewController.view.frame.origin.x == 0)
-        return;
+        return; //don't move left controller if already expanded to max and moving right
     
     if (originalVisibleIndex < 0)
         originalVisibleIndex = _leftViewController.firstVisibleIndex;
@@ -251,12 +246,7 @@ static int originalVisibleIndex = -1;
     CGRect leftFrame = _leftViewController.view.frame;
     leftFrame.origin.x = _rightViewController.view.frame.origin.x - leftFrame.size.width;
     
-//    if (originalVisibleIndex != _leftViewController.firstVisibleIndex) {
-//        leftFrame.size.width = _leftViewController.visibleControllers * _leftViewController.minVisibleFrame.size.width;
-//        originalVisibleIndex = _leftViewController.firstVisibleIndex;
-//    }
-    
-    float maxOrigin = (fminf([self maxRightIndex]-1, originalVisibleIndex/*[_leftViewController.viewControllers count]*/) * _leftViewController.minVisibleFrame.size.width);
+    float maxOrigin = (fminf([self maxRightIndex]-1, originalVisibleIndex) * _leftViewController.minVisibleFrame.size.width);
     float minOrigin = ([self leftControllerHasExpanded]) ? (-originalVisibleIndex * _leftViewController.minVisibleFrame.size.width) : 0;
     
     if (_rightViewController.view.frame.origin.x > maxOrigin + leftFrame.size.width && leftFrame.origin.x < maxOrigin)
